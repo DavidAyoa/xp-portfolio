@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import CurrentTime from "./CurrentTime";
 import MusicVolumeModal from "../Modals/MusicVolumeModal";
 import LanguageModal from "../Modals/LanguageModal";
 import NotificationModal from "../Modals/NotificationModal";
@@ -15,6 +14,7 @@ const FooterRight: React.FC = () => {
   const [currentLocale, setCurrentLocale] = useState(
     localStorage.getItem("currentLocale") || "en"
   );
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   const musicModalRef = useRef<HTMLDivElement>(null);
   const languageModalRef = useRef<HTMLDivElement>(null);
@@ -92,6 +92,27 @@ const FooterRight: React.FC = () => {
     window.location.reload();
   };
 
+  // Update time every minute
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // Update every minute
+    
+    // Set initial time
+    setCurrentTime(new Date());
+    
+    return () => clearInterval(timer);
+  }, []);
+
+  // Format time as 12-hour with AM/PM
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
   const flagSrc = `/img/icons/langs/flag-${currentLocale}.webp`;
 
   return (
@@ -155,7 +176,7 @@ const FooterRight: React.FC = () => {
         {/* Current Time */}
         <div className="ml-2 flex flex-row">
           <h4 className="mx-px text-[0.7rem] cursor-default">
-            <span style={{ verticalAlign: "inherit" }}>2:26 AM</span>
+            <span style={{ verticalAlign: "inherit" }}>{formatTime(currentTime)}</span>
           </h4>
         </div>
       </div>

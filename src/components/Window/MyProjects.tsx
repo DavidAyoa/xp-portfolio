@@ -95,19 +95,19 @@ const MyProjects: React.FC<MyProjectsProps> = ({ leftMenuType }) => {
     );
   };
 
-  const closeAllProjects = () => {
-    setCategories(prevCategories =>
-      prevCategories.map(category => ({
-        ...category,
-        projects: category.projects.map(p => ({
-          ...p,
-          isActive: false,
-          isFocus: false
-        }))
-      }))
-    );
-    setSelectedProject(null);
-  };
+  // const closeAllProjects = () => {
+  //   setCategories(prevCategories =>
+  //     prevCategories.map(category => ({
+  //       ...category,
+  //       projects: category.projects.map(p => ({
+  //         ...p,
+  //         isActive: false,
+  //         isFocus: false
+  //       }))
+  //     }))
+  //   );
+  //   setSelectedProject(null);
+  // };
 
   const getLocalizedCategoryName = (category: Category) => {
     return category.name[i18n.language] || category.name['en'] || '';

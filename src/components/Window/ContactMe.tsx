@@ -43,7 +43,7 @@ const ContactMe: React.FC<ContactMeProps> = () => {
     try {
       const resend = new Resend(resendApiKey);
       
-      const { data, error } = await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: 'onboarding@resend.dev', // Update this with your verified sender email in Resend
         to: adminEmailAddress,
         replyTo: userEmail,

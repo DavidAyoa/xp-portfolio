@@ -27,8 +27,8 @@ const WindowHeaderTools: React.FC<WindowHeaderToolsProps> = ({ id, headerToolsId
   const { 
     currentActiveProject, 
     currentActiveDocument, 
-    setActiveProject, 
-    setActiveDocument, 
+    // setActiveProject, 
+    // setActiveDocument, 
     clearActiveProject, 
     clearActiveDocument 
   } = useGoBack();

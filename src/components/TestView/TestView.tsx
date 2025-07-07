@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../Buttons/Button';
 import StartButton from '../Buttons/StartButton';
-import HeaderLeftButton from '../Buttons/HeaderLeftButton';
+// import HeaderLeftButton from '../Buttons/HeaderLeftButton';
 import HeaderRightButton from '../Buttons/HeaderRightButton';
 import WindowDropdown from '../Buttons/WindowDropdown';
 
@@ -18,12 +18,12 @@ export const TestView: React.FC = () => {
           </StartButton>
         </section>
 
-        <section className="p-4 bg-white rounded shadow">
+        {/* <section className="p-4 bg-white rounded shadow">
           <h2 className="text-xl font-semibold mb-4">Header Left Button</h2>
           <HeaderLeftButton className="p-2 border rounded">
-            <span>Left Button</span>
+            Left Button
           </HeaderLeftButton>
-        </section>
+        </section> */}
 
         <section className="p-4 bg-white rounded shadow">
           <h2 className="text-xl font-semibold mb-4">Header Right Button</h2>

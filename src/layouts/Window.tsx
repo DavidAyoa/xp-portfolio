@@ -24,9 +24,9 @@ type MenuHeaderItems = {
   none: MenuHeaderItem;
 };
 
-interface MenuHeaderData {
-  menuHeaderItems: MenuHeaderItems;
-}
+// interface MenuHeaderData {
+//   menuHeaderItems: MenuHeaderItems;
+// }
 import cn from 'clsx'
 
 interface WindowProps {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import CompanyLogo from '../Company/CompanyLogo';
 import CompanyName from '../Company/CompanyName';
 import useConnection from '../../hooks/useConnection';
 

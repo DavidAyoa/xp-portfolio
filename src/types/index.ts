@@ -65,7 +65,7 @@ export const windowEntitySchema = baseEntitySchema.extend({
 });
 
 // TypeScript Types
-export interface BaseEntity<T = string> {
+export interface BaseEntity {
   id: string;
   title: string | Record<string, string>;
   subtitle?: string | Record<string, string>;

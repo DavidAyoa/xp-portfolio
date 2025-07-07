@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useState, useEffect, useCallback } from 'react';
+// import { useNavigate } from 'react-router';
 import useWindows from '../hooks/useWindows';
 import useVolume from '../hooks/useVolume';
 import { useLanguage } from '../hooks/useLanguage';
@@ -29,7 +29,7 @@ import { createEntity } from '../types';
 import type { Entity, WindowEntity } from '../types';
 
 const Office: React.FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [showHeader, setShowHeader] = useState(false);
   const [windows, setWindows] = useState<WindowEntity[]>([]);
   const [highestZIndex, setHighestZIndex] = useState(1);
@@ -264,10 +264,10 @@ const Office: React.FC = () => {
   }, []);
 
   // Check if a window is visible
-  const isWindowVisible = useCallback((windowId: string) => {
-    const window = windows.find(w => w.id === windowId);
-    return window ? window.visible : false;
-  }, [windows]);
+  // const isWindowVisible = useCallback((windowId: string) => {
+  //   const window = windows.find(w => w.id === windowId);
+  //   return window ? window.visible : false;
+  // }, [windows]);
 
   // Handle entity actions
   const handleEntityAction = useCallback((action: string, ...args: any[]) => {
