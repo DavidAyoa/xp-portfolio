@@ -25,7 +25,7 @@ import Notepad from '../components/Window/Notepad';
 import Terminal from '../components/Window/Terminal';
 
 import windowsData from '../data/windows-data.json';
-import { createEntity } from '../types';
+// import { createEntity } from '../types';
 import type { Entity, WindowEntity } from '../types';
 
 const Office: React.FC = () => {
@@ -40,7 +40,7 @@ const Office: React.FC = () => {
   const { setLanguage } = useLanguage();
 
   // Component mapping - maps component names to their implementations
-  const components = {
+  const components: Record<string, React.ComponentType<any>> = {
     Terminal: Terminal,
     ContactMe: ContactMe,
     MyProjects: MyProjects,
@@ -60,8 +60,8 @@ const Office: React.FC = () => {
     return data.map((item: any) => {
       console.log('Raw item:', item);
       
-      // Create entity using createEntity to ensure all required fields are present
-      const entity = createEntity({
+      // Create entity manually to ensure component field is preserved
+      const entity = {
         id: item.id || '',
         title: typeof item.title === 'object' && !Array.isArray(item.title) 
           ? item.title 
@@ -72,24 +72,24 @@ const Office: React.FC = () => {
         onDesktop: item.onDesktop !== false,
         imgSrc: item.imgSrc || '',
         iconSrc: item.iconSrc || '',
-        component: item.component || '',
+        component: item.component || '', // Directly assign component
         headerPosition: (item.headerPosition === 'left' || item.headerPosition === 'right' || item.headerPosition === 'center') 
           ? item.headerPosition 
           : 'left',
         // Optional window properties with type safety
-        initPositionX: item.initPositionX !== undefined ? Number(item.initPositionX) : 100,
-        initPositionY: item.initPositionY !== undefined ? Number(item.initPositionY) : 100,
-        initWidth: item.initWidth !== undefined ? Number(item.initWidth) : 800,
-        initHeight: item.initHeight !== undefined ? Number(item.initHeight) : 600,
-        minWidth: item.minWidth !== undefined ? Number(item.minWidth) : 300,
-        minHeight: item.minHeight !== undefined ? Number(item.minHeight) : 200,
-        leftMenuType: item.leftMenuType,
-        headerToolsId: item.headerToolsId,
-        menuHeaderItemsId: item.menuHeaderItemsId || 'default',
-        resizable: item.resizable,
-        windowsHeaderLogo: item.windowsHeaderLogo,
-        isSearchVisible: item.isSearchVisible
-      });
+        initPositionX: item.initPositionX !== undefined ? Number(item.initPositionX) : undefined,
+        initPositionY: item.initPositionY !== undefined ? Number(item.initPositionY) : undefined,
+        initWidth: item.initWidth !== undefined ? Number(item.initWidth) : undefined,
+        initHeight: item.initHeight !== undefined ? Number(item.initHeight) : undefined,
+        minWidth: item.minWidth !== undefined ? Number(item.minWidth) : undefined,
+        minHeight: item.minHeight !== undefined ? Number(item.minHeight) : undefined,
+        leftMenuType: item.leftMenuType || undefined,
+        headerToolsId: item.headerToolsId || undefined,
+        menuHeaderItemsId: item.menuHeaderItemsId || undefined,
+        resizable: item.resizable !== undefined ? Boolean(item.resizable) : undefined,
+        windowsHeaderLogo: item.windowsHeaderLogo !== undefined ? Boolean(item.windowsHeaderLogo) : undefined,
+        isSearchVisible: item.isSearchVisible !== undefined ? Boolean(item.isSearchVisible) : undefined
+      } as Entity;
       
       console.log('Created entity:', entity.id, 'with component:', entity.component);
       return entity;
@@ -170,10 +170,16 @@ const Office: React.FC = () => {
       const newZIndex = highestZIndex + 1;
       setHighestZIndex(newZIndex);
       
+      // Map component name to actual component
+      const componentName = entity.component as keyof typeof components;
+      const ComponentToRender = components[componentName];
+      
+      console.log('Component name:', componentName, 'Component found:', !!ComponentToRender);
+      
       // Create a complete WindowEntity with all required properties
       const newWindow: WindowEntity = {
         ...entity,
-        // Store the component name string
+        // Store the component name string instead of the component itself
         component: entity.component,
         visible: true,
         zIndex: newZIndex,
@@ -288,10 +294,7 @@ const Office: React.FC = () => {
   // Helper function to render the appropriate component
   const renderWindowComponent = useCallback((componentName: string) => {
     console.log('Rendering component:', componentName);
-    
-    // Type assertion to access the component by name
-    const componentMap: Record<string, React.ComponentType> = components;
-    const ComponentToRender = componentMap[componentName];
+    const ComponentToRender = components[componentName as keyof typeof components];
     
     if (!ComponentToRender) {
       console.warn(`Component "${componentName}" not found in components mapping`);
@@ -299,7 +302,7 @@ const Office: React.FC = () => {
     }
     
     return <ComponentToRender />;
-  }, []);
+  }, [components]);
 
   return (
     <div 
