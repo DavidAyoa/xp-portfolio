@@ -1,0 +1,217 @@
+/* Import Tailwind CSS */
+@import "tailwindcss";
+
+/* Font Face Declarations */
+@font-face {
+  font-family: 'Helvetica BlackItalic';
+  src: url('/fonts/Helvetica-BlackItalic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Franklin Gothic Medium';
+  src: url('/fonts/Franklin Gothic Medium Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MS Sans Serif';
+  src: url('/fonts/ms-sans-serif/MS Sans Serif.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MS Sans Serif';
+  src: url('/fonts/ms-sans-serif-bold/MS Sans Serif Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tahoma';
+  src: url('/fonts/tahoma.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tahoma';
+  src: url('/fonts/tahomabd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Trebuchet MS';
+  src: url('/fonts/trebuc.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Trebuchet MS';
+  src: url('/fonts/trebucbd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Verdana';
+  src: url('/fonts/verdanabd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Define your custom theme */
+@theme {
+  /* Custom font families */
+  --font-helvetica: "Helvetica BlackItalic", sans-serif;
+  --font-franklin: "Franklin Gothic Medium", sans-serif;
+  --font-tahoma: "Tahoma", sans-serif;
+  --font-verdana: "Verdana", sans-serif;
+  --font-trebuchet: "Trebuchet MS", sans-serif;
+  --font-trebuchet-pixel: "Trebuchet MS pixelated", sans-serif;
+  
+  /* Custom colors */
+  --color-load-blue: #567DDA;
+  --color-load-header-blue: #012F9E;
+  --color-login-blue: #3A89E6;
+  --color-dropdown: #1660E8;
+  --color-window-blue-active: #0831D9;
+  --color-window-blue-deactivated: #6582F5;
+  --color-pellet-blue-active: #1E52B7;
+  --color-pellet-blue-deactivated: #3C81F3;
+  --color-twilight-blue: #0C327D;
+  --color-heroic-blue: #1C68FF;
+  --color-input-blue: #7f9db9;
+  --color-light-yellow: #ffffe1;
+  --color-light-blue: #ced8ef;
+  --color-silver: #c0c0c0;
+  --color-solitude-blue: #eff3ff;
+  --color-pictures-blue: #eef2fb;
+  --color-moon-mist: #d1cfbe;
+  --color-focus-blue: #0B61FF;
+  --color-eggshell: #EDEAD5;
+  --color-gray-128: #808080;
+  --color-gray-192: #C0C0C0;
+  --color-gray-245: #F5F5F5;
+  
+  /* Custom breakpoints */
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  /* Custom spacing */
+  --spacing-0-75: 0.20rem;
+  --spacing-12-125: 12.125rem;
+  
+  /* Custom border widths */
+  --border-width-3: 3px;
+  
+  /* Custom z-index values */
+  --z-index-max: 999999;
+  --z-index-fmax: 99999999;
+}
+
+/* Custom utilities for background images */
+@utility bg-profile-pic {
+  background-image: url('/img/profile-picture.webp');
+}
+
+@utility bg-office-pic {
+  background-image: url('/img/office-picture.webp');
+}
+
+@utility bg-window-picture {
+  background-image: url('/img/icons/pictures/bg-picture.webp');
+}
+
+@utility bg-window-white {
+  background-image: linear-gradient(to right, rgb(237, 237, 229) 0%, rgb(237, 232, 205) 100%);
+}
+
+@utility bg-header-window-active {
+  background-image: linear-gradient(rgb(0, 88, 238) 0%, rgb(53, 147, 255) 4%, rgb(40, 142, 255) 6%, rgb(18, 125, 255) 8%, rgb(3, 111, 252) 10%, rgb(2, 98, 238) 14%, rgb(0, 87, 229) 20%, rgb(0, 84, 227) 24%, rgb(0, 85, 235) 56%, rgb(0, 91, 245) 66%, rgb(2, 106, 254) 76%, rgb(0, 98, 239) 86%, rgb(0, 82, 214) 92%, rgb(0, 64, 171) 94%, rgb(0, 48, 146) 100%);
+}
+
+@utility bg-header-window-deactivated {
+  background-image: linear-gradient(rgb(118, 151, 231) 0%, rgb(126, 158, 227) 3%, rgb(148, 175, 232) 6%, rgb(151, 180, 233) 8%, rgb(130, 165, 228) 14%, rgb(124, 159, 226) 17%, rgb(121, 150, 222) 25%, rgb(123, 153, 225) 56%, rgb(130, 169, 233) 81%, rgb(128, 165, 231) 89%, rgb(123, 150, 225) 94%, rgb(122, 147, 223) 97%, rgb(171, 186, 227) 100%);
+}
+
+@utility bg-window-menu-card {
+  background-image: linear-gradient(to right, rgba(180, 200, 251, 0.87) 0%, rgba(164, 185, 251, 0.87) 50%, rgba(180, 200, 251, 0.87) 100%);
+}
+
+@utility bg-window-menu-card-header {
+  background-image: linear-gradient(to right, rgb(240, 240, 255) 0px, rgb(240, 240, 255) 30%, rgb(168, 188, 255) 100%);
+}
+
+@utility bg-window-menu-card-header-active {
+  background-image: linear-gradient(90deg, rgba(0,73,181,1) 0%, rgba(41,93,205,1) 100%);
+}
+
+@utility bg-window-side-menu {
+  background-image: linear-gradient(rgb(116, 138, 255) 0%, rgb(64, 87, 211) 100%);
+}
+
+@utility bg-button-submit {
+  background-image: linear-gradient(180deg,#fff,#ecebe5 86%,#d8d0c4);
+}
+
+@utility bg-button-clicked {
+  background-image: linear-gradient(180deg,#cdcac3,#e3e3db 8%,#e5e5de 94%,#f2f2f1);
+}
+
+@utility bg-player {
+  background-image: linear-gradient(180deg, rgba(253,253,253,1) 0%, rgba(152,175,214,0.75) 45%, rgba(152,175,214,0.75) 55%, rgba(209,231,255,1) 100%);
+}
+
+@utility bg-radial-loading {
+  background-image: radial-gradient(circle, #3A89E6 0%, #567DDA 100%);
+}
+
+/* Custom box shadows */
+@utility shadow-pellet-footer-active {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 1px 1px inset, rgba(0, 0, 0, 0.7) 1px 0px 1px inset;
+}
+
+@utility shadow-pellet-footer-deactivated {
+  box-shadow: rgba(0, 0, 0, 0.3) -1px 0px inset, rgba(255, 255, 255, 0.2) 1px 1px 1px inset;
+}
+
+@utility shadow-button-submit-hover {
+  box-shadow: inset -1px 1px #fff0cf, inset 1px 2px #fdd889, inset -2px 2px #fbc761, inset 2px -2px #e5a01a;
+}
+
+@utility shadow-header-tools {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px -1px 1px inset;
+}
+
+/* Custom cursors */
+@utility cursor-default-custom {
+  cursor: url(/img/cursors/default-cursor.cur), auto;
+}
+
+@utility cursor-pointer-custom {
+  cursor: url(/img/cursors/pointer-cursor.cur), auto;
+}
+
+@utility cursor-wait-custom {
+  cursor: url(/img/cursors/wait-cursor.cur), auto;
+}
+
