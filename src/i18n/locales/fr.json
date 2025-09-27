@@ -1,0 +1,35 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "login": "Connexion",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "welcome": "Bienvenue",
+    "portfolio": "Portfolio"
+  },
+  "loading": {
+    "starting": "Démarrage de Windows XP...",
+    "initializing": "Initialisation du système...",
+    "loading_profile": "Chargement du profil utilisateur..."
+  },
+  "login": {
+    "title": "Windows XP Professionnel",
+    "subtitle": "Pour commencer, cliquez sur votre nom d'utilisateur",
+    "guest": "Invité",
+    "admin": "Administrateur",
+    "turn_off": "Éteindre l'ordinateur"
+  },
+  "desktop": {
+    "start": "Démarrer",
+    "taskbar": "Barre des tâches",
+    "desktop": "Bureau"
+  },
+  "team": "Équipe",
+  "guest": "Invité",
+  "internalAccess": "Accès complet aux projets internes, ressources d'équipe, outils de développement et fonctionnalités administratives",
+  "visitorAccess": "Explorez notre portfolio vitrine, projets phares, et découvrez nos services numériques créatifs",
+  "loginInstructions": "Pour commencer, cliquez sur votre nom d'utilisateur",
+  "selectLanguage": "Sélectionnez la langue",
+  "currentLanguage": "Langue actuelle: {{language}}",
+  "codepoetsDescription": "Nous concevons et construisons des marques, des sites web et de la technologie - avec un code aussi beau que la poésie. Parcourez ce bureau rétro pour l'expérience Codepoets (xp)."
+}

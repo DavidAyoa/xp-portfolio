@@ -1,0 +1,451 @@
+@import "tailwindcss";
+
+/* Tahoma Font Faces */
+@font-face {
+  font-family: 'Tahoma';
+  src: url('/fonts/tahoma.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tahoma';
+  src: url('/fonts/tahoma-bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Franklin Gothic Medium';
+  src: url('/fonts/Franklin Gothic Medium Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica BlackItalic';
+  src: url('/fonts/Helvetica-BlackItalic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Trebuchet MS';
+  src: url('/fonts/trebuc.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Trebuchet MS';
+  src: url('/fonts/trebucbd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tailwind CSS Custom Font */
+@theme {
+  --font-family-tahoma: 'Tahoma', 'MS Sans Serif', sans-serif;
+}
+
+/* Windows XP Default Font */
+body {
+  font-family: theme(--font-family-tahoma);
+}
+
+/* App container */
+.app-container {
+  width: 90%;
+}
+
+/* Strokes */
+.stroke-white-1 {
+  border: 1px solid #fefefe;
+}
+
+.down-stroke-white-2 {
+  border-bottom: 2px solid #fefefe;
+}
+
+.up-stroke-green-2 {
+  border-top: 2px solid #13920d;
+}
+
+/* Background colors */
+.bg-color-load-header-blue {
+  background-color: #012f9e;
+}
+
+.bg-color-load-blue {
+  background-color: #567dda;
+}
+
+.bg-color-login-blue {
+  background: linear-gradient(
+    90deg,
+    #1442a7 0%,
+    rgba(20, 66, 167, 0.56) 60.16%,
+    rgba(20, 66, 167, 0) 99.33%
+  );
+}
+
+/* Gradients */
+.radial-gradient-loading {
+  background:
+    radial-gradient(
+      29.68% 27.76% at 5.94% 14.64%,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.16) 59.9%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    #567dda;
+}
+
+.line-loading-gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.48) 49.48%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+/* Loading bar */
+.loading-bar {
+  border: 2px solid #b2b2b2;
+}
+
+.loading-box {
+  background: linear-gradient(
+    to bottom,
+    #2838c7 0%,
+    #5979ef 17%,
+    #869ef3 32%,
+    #869ef3 45%,
+    #5979ef 59%,
+    #2838c7 100%
+  );
+  animation: loader 3.5s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes loader {
+  0% {
+    transform: translate(-250px);
+  }
+  100% {
+    transform: translate(400px);
+  }
+}
+
+/* Font families */
+.font-franklin-gothic {
+  font-family: 'Franklin Gothic Medium', sans-serif;
+}
+
+.font-franklin {
+  font-family: 'Franklin Gothic Medium', sans-serif;
+}
+
+.font-tahoma {
+  font-family: 'Tahoma', sans-serif;
+}
+
+.font-helvetica-black-italic {
+  font-family: 'Helvetica BlackItalic', sans-serif;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', monospace;
+}
+
+.font-trebuchet {
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+/* RTL Support - Let browser handle most RTL automatically */
+
+/* Windows XP Notification Animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+/* Windows XP Taskbar Authentic Gradients - Exact from winxp-example */
+.taskbar-gradient, .xp-taskbar-gradient {
+  background: linear-gradient(
+    to bottom,
+    #1f2f86 0%,
+    #3165c4 3%,
+    #3682e5 6%,
+    #4490e6 10%,
+    #3883e5 12%,
+    #2b71e0 15%,
+    #2663da 18%,
+    #235bd6 20%,
+    #2258d5 23%,
+    #2157d6 38%,
+    #245ddb 54%,
+    #2562df 86%,
+    #245fdc 89%,
+    #2158d4 92%,
+    #1d4ec0 95%,
+    #1941a5 98%
+  );
+  border-top: 1px solid #2c5aa0;
+  height: 30px;
+}
+
+.taskbar-systray-gradient, .xp-systray-gradient {
+  background: linear-gradient(
+    to bottom,
+    #0c59b9 1%,
+    #139ee9 6%,
+    #18b5f2 10%,
+    #139beb 14%,
+    #1290e8 19%,
+    #0d8dea 63%,
+    #0d9ff1 81%,
+    #0f9eed 88%,
+    #119be9 91%,
+    #1392e2 94%,
+    #137ed7 97%,
+    #095bc9 100%
+  );
+  border-left: 1px solid #1042af;
+  box-shadow: inset 1px 0 1px #18bbff;
+}
+
+.xp-start-button {
+  height: 100%;
+  margin-right: 10px;
+}
+
+.xp-start-button:hover {
+  filter: brightness(105%);
+}
+
+.xp-start-button:active {
+  filter: brightness(85%);
+}
+
+.xp-app-button {
+  background-color: #3c81f3;
+  box-shadow: inset -1px 0px rgba(0, 0, 0, 0.3),
+              inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 2px;
+  height: 22px;
+  padding: 0 8px;
+  margin: 0 1px;
+  border: none;
+  font-size: 11px;
+  font-family: 'Tahoma', sans-serif;
+  display: flex;
+  align-items: center;
+  max-width: 160px;
+  min-width: 50px;
+}
+
+.xp-app-button:hover {
+  background-color: #53a3ff;
+}
+
+.xp-app-button:active {
+  background-color: #1e52b7;
+}
+
+.xp-app-button.focused {
+  background-color: #1e52b7;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.2),
+              inset 1px 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.xp-start-menu {
+  background-color: #4282d6;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 11px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 400px;
+  z-index: 1000;
+}
+
+.xp-start-menu-header {
+  background: linear-gradient(
+    to bottom,
+    #1868ce 0%,
+    #0e60cb 12%,
+    #0e60cb 20%,
+    #1164cf 32%,
+    #1667cf 33%,
+    #1b6cd3 47%,
+    #1e70d9 54%,
+    #2476dc 60%,
+    #297ae0 65%,
+    #3482e3 77%,
+    #3786e5 79%,
+    #428ee9 90%,
+    #4791eb 100%
+  );
+  height: 54px;
+  color: #fff;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.xp-start-menu-content {
+  display: flex;
+  height: 400px;
+}
+
+.xp-start-menu-left {
+  background: #fff;
+  width: 200px;
+  padding: 8px 0;
+}
+
+.xp-start-menu-right {
+  background: #cbe3ff;
+  width: 200px;
+  padding: 8px;
+}
+
+.xp-menu-item {
+  padding: 4px 16px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #000;
+  text-decoration: none;
+}
+
+.xp-menu-item:hover {
+  background: #2f71cd;
+  color: #fff;
+}
+
+.xp-menu-item img {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.xp-system-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.xp-time {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 300;
+  text-shadow: none;
+  font-family: 'Tahoma', sans-serif;
+  margin-left: 8px;
+}
+
+.taskbar-button-unfocused {
+  background-color: #3c81f3;
+  box-shadow: inset -1px 0px rgba(0, 0, 0, 0.3),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.taskbar-button-unfocused:hover {
+  background-color: #53a3ff;
+}
+
+.taskbar-button-unfocused:active {
+  background-color: #1e52b7;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
+    inset 1px 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.taskbar-button-focused {
+  background-color: #1e52b7;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.2),
+    inset 1px 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.start-button {
+  height: 100%;
+  position: relative;
+}
+
+.start-button:hover {
+  filter: brightness(105%);
+}
+
+.start-button:active {
+  filter: brightness(85%);
+}
+
+.start-menu-gradient {
+  background: linear-gradient(
+    to bottom,
+    #1868ce 0%,
+    #0e60cb 12%,
+    #0e60cb 20%,
+    #1164cf 32%,
+    #1667cf 33%,
+    #1b6cd3 47%,
+    #1e70d9 54%,
+    #2476dc 60%,
+    #297ae0 65%,
+    #3482e3 77%,
+    #3786e5 79%,
+    #428ee9 90%,
+    #4791eb 100%
+  );
+}
+
+/* Windows XP Desktop Background */
+.bg-office-pic {
+  background-image: url('/img/bliss-wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Authentic XP Taskbar App Button Hover Effects */
+.xp-app-button--cover:hover {
+  background-color: #53a3ff !important;
+  box-shadow: inset -1px 0px rgba(0, 0, 0, 0.3), inset 1px 1px 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+.xp-app-button--cover:hover:active {
+  background-color: #1e52b7 !important;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), inset 1px 0 1px rgba(0, 0, 0, 0.7) !important;
+}
+
+.xp-app-button--focus:hover {
+  background-color: #3576f3 !important;
+}
+
+.xp-app-button--focus:hover:active {
+  background-color: #1e52b7 !important;
+}
+

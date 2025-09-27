@@ -1,0 +1,41 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "login": "Login",
+    "username": "Username",
+    "password": "Password",
+    "welcome": "Welcome",
+    "portfolio": "Portfolio"
+  },
+  "loading": {
+    "starting": "Starting Windows XP...",
+    "initializing": "Initializing system...",
+    "loading_profile": "Loading user profile..."
+  },
+  "login": {
+    "title": "Windows XP Professional",
+    "subtitle": "To begin, click your user name",
+    "guest": "Guest",
+    "admin": "Administrator",
+    "turn_off": "Turn off computer"
+  },
+  "desktop": {
+    "start": "Start",
+    "taskbar": "Taskbar",
+    "desktop": "Desktop"
+  },
+  "team": "Team",
+  "guest": "Guest",
+  "internalAccess": "Full access to internal projects, team resources, development tools, and administrative features",
+  "visitorAccess": "Explore our showcase portfolio, featured projects, and discover our creative digital services",
+  "loginInstructions": "To begin, click your user name",
+  "selectLanguage": "Select Language",
+  "currentLanguage": "Current Language: {{language}}",
+  "codepoetsDescription": "We design and build brands, websites, and tech - with code as beautiful as poetry. Browse this retro desktop for the Codepoets Experience (xp).",
+  "notification": {
+    "title": "Tip",
+    "fullscreenMessage": "Press F11 or click the fullscreen button in the system tray to toggle fullscreen mode for the best experience.",
+    "toggleFullscreen": "Toggle Fullscreen",
+    "dismiss": "Dismiss"
+  }
+}

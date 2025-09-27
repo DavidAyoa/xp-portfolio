@@ -1,0 +1,35 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "login": "Iniciar sesión",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "welcome": "Bienvenido",
+    "portfolio": "Portafolio"
+  },
+  "loading": {
+    "starting": "Iniciando Windows XP...",
+    "initializing": "Inicializando sistema...",
+    "loading_profile": "Cargando perfil de usuario..."
+  },
+  "login": {
+    "title": "Windows XP Profesional",
+    "subtitle": "Para comenzar, haga clic en su nombre de usuario",
+    "guest": "Invitado",
+    "admin": "Administrador",
+    "turn_off": "Apagar equipo"
+  },
+  "desktop": {
+    "start": "Inicio",
+    "taskbar": "Barra de tareas",
+    "desktop": "Escritorio"
+  },
+  "team": "Equipo",
+  "guest": "Invitado",
+  "internalAccess": "Acceso completo a proyectos internos, recursos del equipo, herramientas de desarrollo y funciones administrativas",
+  "visitorAccess": "Explora nuestro portafolio destacado, proyectos principales y descubre nuestros servicios digitales creativos",
+  "loginInstructions": "Para comenzar, haga clic en su nombre de usuario",
+  "selectLanguage": "Seleccionar idioma",
+  "currentLanguage": "Idioma actual: {{language}}",
+  "codepoetsDescription": "Diseñamos y construimos marcas, sitios web y tecnología - con código tan hermoso como la poesía. Navega por este escritorio retro para la experiencia Codepoets (xp)."
+}
