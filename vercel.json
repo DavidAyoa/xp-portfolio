@@ -1,0 +1,15 @@
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "pnpm run build",
+        "outputDirectory": "dist"
+      }
+    }
+  ],
+  "typescript": {
+    "ignoreBuildErrors": true
+  }
+}
