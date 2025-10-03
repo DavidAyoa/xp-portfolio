@@ -124,7 +124,7 @@ export const appSettings = {
     resizable: true,
   },
   ContactDetails: {
-    title: 'Notepad - Contact Info',
+    title: 'Contact Info',
     component: ContactDetails,
     defaultSize: { width: 600, height: 400 },
     defaultOffset: { x: 110, y: 110 },

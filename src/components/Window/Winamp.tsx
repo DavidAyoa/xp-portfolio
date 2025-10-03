@@ -43,15 +43,27 @@ function Winamp({ onClose, onMinimize }: WinampProps) {
   const ref = useRef(null);
   const webamp = useRef(null);
 
+  console.log('🎵 Winamp received props:', {
+    onClose: typeof onClose,
+    onMinimize: typeof onMinimize
+  });
+
   // Ensure callbacks are always functions
-  const handleClose = typeof onClose === 'function' ? onClose : () => {};
-  const handleMinimize = typeof onMinimize === 'function' ? onMinimize : () => {};
+  const handleClose = typeof onClose === 'function' ? onClose : () => {
+    console.warn('🎵 No onClose callback provided to Winamp!');
+  };
+  const handleMinimize = typeof onMinimize === 'function' ? onMinimize : () => {
+    console.warn('🎵 No onMinimize callback provided to Winamp!');
+  };
 
   useEffect(() => {
     const target = ref.current;
     if (!target) {
       return;
     }
+
+    console.log('🎵 Winamp mounting, creating new Webamp instance');
+
     webamp.current = new Webamp({
       initialTracks,
     });
@@ -62,6 +74,7 @@ function Winamp({ onClose, onMinimize }: WinampProps) {
       }
     });
     return () => {
+      console.log('🎵 Winamp unmounting, disposing Webamp instance');
       if (webamp.current) {
         try {
           // Try to dispose, but don't let it crash the app
@@ -76,12 +89,13 @@ function Winamp({ onClose, onMinimize }: WinampProps) {
 
   useEffect(() => {
     if (webamp.current) {
+      console.log('🎵 Setting Webamp callbacks');
       webamp.current.onClose(() => {
-        console.log('🎵 Webamp closed by user');
+        console.log('🎵 Webamp close button clicked!');
         handleClose();
       });
       webamp.current.onMinimize(() => {
-        console.log('🎵 Webamp minimized by user');
+        console.log('🎵 Webamp minimize button clicked!');
         handleMinimize();
       });
     }

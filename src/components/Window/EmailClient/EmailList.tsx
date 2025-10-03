@@ -67,7 +67,7 @@ const EmailList: React.FC<EmailListProps> = ({
               <div className="email-list-column email-col-attachment">
                 {email.hasAttachment && (
                   <img
-                    src="/img/icons/email/attachment.png"
+                    src="/windowsIcons/ie-paper.png"
                     alt="Attachment"
                     className="email-attachment-icon"
                     onError={(e) => {

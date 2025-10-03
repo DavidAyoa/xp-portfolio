@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/* MS Sans Serif Font Faces */
+@font-face {
+  font-family: 'MS Sans Serif';
+  src: url('/fonts/ms-sans-serif/MS Sans Serif.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MS Sans Serif';
+  src: url('/fonts/ms-sans-serif-bold/MS Sans Serif Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Tahoma Font Faces */
 @font-face {
   font-family: 'Tahoma';
@@ -49,9 +66,19 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Verdana';
+  src: url('/fonts/verdanabd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Tailwind CSS Custom Font */
 @theme {
   --font-family-tahoma: 'Tahoma', 'MS Sans Serif', sans-serif;
+  --font-family-ms-sans-serif: 'MS Sans Serif', sans-serif;
+  --font-family-verdana: 'Verdana', sans-serif;
 }
 
 /* Windows XP Default Font */

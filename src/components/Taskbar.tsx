@@ -116,18 +116,22 @@ const Taskbar: React.FC<TaskbarProps> = ({
     console.log('🔥 Start menu clicked:', item);
 
     const itemMap: Record<string, string> = {
-      'My Computer': 'ourComputer',
+      'Our Computer': 'ourComputer',
+      'Mail Us': 'contact',
+      'Contact Details': 'contactDetails',
+      'Our Work': 'myProjects',
+      'Our Music': 'music',
+      'Command Prompt': 'terminal',
+      'About Us': 'contactDetails',
+      'Schedule a Meeting': 'internetExplorer',
+      'Our Pictures': 'myProjects',
+      'Our Documents': 'myProjects',
+      'Traditional Website': 'internetExplorer',
+      'WhatsApp Messenger': 'internetExplorer',
       'Notepad': 'contactDetails',
       'Paint': 'paint',
-      'Minesweeper': 'minesweeper',
       'Terminal': 'terminal',
       'Internet Explorer': 'internetExplorer',
-      'Winamp': 'music',
-      'Internet': 'internetExplorer',
-      'E-mail': 'contact',
-      'My Documents': 'ourComputer',
-      'My Pictures': 'ourComputer',
-      'My Music': 'music',
     };
 
     // Handle special actions
@@ -136,7 +140,7 @@ const Taskbar: React.FC<TaskbarProps> = ({
       return;
     }
 
-    if (item === 'Turn Off Computer') {
+    if (item === 'Restart') {
       window.location.reload();
       return;
     }
@@ -296,17 +300,9 @@ const Taskbar: React.FC<TaskbarProps> = ({
             )}
           </div>
 
-          {/* Volume Control */}
-          <img
-            src="/img/icons/volume-icon-sm.webp"
-            alt="Volume"
-            className="w-4 h-4 cursor-pointer"
-            onClick={() => setVolumeDropdownOpen(!volumeDropdownOpen)}
-          />
-
           {/* Fullscreen Toggle */}
           <img
-            src="/img/icons/full-screen-icon-sm.webp"
+            src="/img/codepoets-logo-light.png"
             alt={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
             className="w-4 h-4 cursor-pointer"
             onClick={toggleFullscreen}

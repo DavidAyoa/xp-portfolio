@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface LoginScreenProps {
@@ -29,6 +29,14 @@ const users: User[] = [
 export default function LoginScreen({ onLogin }: LoginScreenProps) {
   const { t, i18n } = useTranslation();
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // Preload images
+  React.useEffect(() => {
+    const img = new Image();
+    img.src = '/img/codepoets-logo-light.png';
+    img.onload = () => setImagesLoaded(true);
+  }, []);
 
   const handleUserSelect = (username: string) => {
     setSelectedUser(username);
@@ -100,6 +108,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
                     src={user.avatar}
                     alt={user.displayName}
                     className="w-12 h-12 object-contain"
+                    style={{ opacity: imagesLoaded ? 1 : 0, transition: 'opacity 0.1s' }}
                   />
                 ) : (
                   <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center text-white text-xl font-bold">
@@ -110,7 +119,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
 
               {/* User Name */}
               <div className="text-center">
-                <h3 className="text-white font-semibold text-lg mb-1">
+                <h3 className="text-white font-semibold text-lg mb-1" style={{ letterSpacing: '0' }}>
                   {user.displayName}
                 </h3>
                 {user.isAdmin && (

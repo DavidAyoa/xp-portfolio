@@ -103,7 +103,9 @@ const Window = memo(function Window({
 }: WindowProps) {
   function _onMouseDown(e: React.MouseEvent) {
     e.stopPropagation();
-    onMouseDown(id);
+    if (!isFocus) {
+      onMouseDown(id);
+    }
   }
   function _onMouseUpClose() {
     onMouseUpClose(id);
@@ -151,7 +153,7 @@ const Window = memo(function Window({
   }
 
   const windowClasses = clsx(
-    'absolute flex flex-col',
+    'absolute flex flex-col window-container',
     {
       'block': show,
       'hidden': !show,
@@ -214,12 +216,7 @@ const Window = memo(function Window({
           }}
           ref={dragRef}
           onDoubleClick={onDoubleClickHeader}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            if (!isFocus) {
-              _onMouseDown(e);
-            }
-          }}
+          onMouseDown={_onMouseDown}
         >
           <img
             onDoubleClick={_onMouseUpClose}

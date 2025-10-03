@@ -30,7 +30,7 @@ export const desktopApps: Entity[] = [
     initHeight: 500,
     minWidth: 400,
     minHeight: 300,
-    component: "FileManager",
+    component: "OurComputer",
     leftMenuType: "computer"
   },
   {
@@ -67,7 +67,7 @@ export const desktopApps: Entity[] = [
   {
     id: "contactDetails",
     title: {
-      en: "Contact Details\n- Notepad",
+      en: "Contact Details",
       fr: "Coordonnées",
       es: "Detalles de Contacto",
       hi: "संपर्क विवरण",
@@ -123,7 +123,7 @@ export const desktopApps: Entity[] = [
     initHeight: 500,
     minWidth: 200,
     minHeight: 160,
-    component: "MyProjects",
+    component: "FileManager",
     leftMenuType: "default"
   },
   {
@@ -161,11 +161,11 @@ export const desktopApps: Entity[] = [
   {
     id: "terminal",
     title: {
-      en: "AI Terminal",
-      fr: "Terminal IA",
-      es: "Terminal IA",
-      hi: "AI टर्मिनल",
-      ar: "محطة الذكاء الاصطناعي"
+      en: "Command Prompt",
+      fr: "Invite de commandes",
+      es: "Símbolo del sistema",
+      hi: "कमांड प्रॉम्प्ट",
+      ar: "موجه الأوامر"
     },
     subtitle: {
       en: "Talk to Codepoets via AI",
@@ -252,34 +252,115 @@ export const desktopApps: Entity[] = [
     leftMenuType: ""
   },
   {
-    id: "minesweeper",
+    id: "composeEmail",
     title: {
-      en: "Minesweeper",
-      fr: "Démineur",
-      es: "Buscaminas",
-      hi: "माइनस्वीपर",
-      ar: "كاسح الألغام"
+      en: "New Message",
+      fr: "Nouveau Message"
     },
     subtitle: {
-      en: "Classic puzzle game",
-      fr: "Jeu de puzzle classique"
+      en: "Compose a new email"
     },
-    imgSrc: "/img/icons/minesweeper/minesweeper-icon-lg.webp",
-    onDesktop: true,
-    resizable: false,
+    imgSrc: "/img/icons/email/new-mail.png",
+    onDesktop: false,
+    resizable: true,
     windowsHeaderLogo: false,
     isSearchVisible: false,
-    headerPosition: "right",
+    headerPosition: "left",
     headerToolsId: "",
     menuHeaderItemsId: "none",
-    iconSrc: "/img/icons/minesweeper/minesweeper-icon-sm.webp",
-    initPositionX: 160,
-    initPositionY: 270,
-    initWidth: 200,
-    initHeight: 280,
-    minWidth: 150,
-    minHeight: 200,
-    component: "Minesweeper",
+    iconSrc: "/img/icons/email/new-mail.png",
+    initPositionX: 280,
+    initPositionY: 160,
+    initWidth: 500,
+    initHeight: 400,
+    minWidth: 400,
+    minHeight: 300,
+    component: "ComposeEmail",
     leftMenuType: ""
-  }
+  },
+  {
+    id: "clients",
+    title: {
+      en: "Clients (C:)",
+      fr: "Clients (C:)",
+      es: "Clientes (C:)",
+      hi: "क्लाइंट्स (C:)",
+      ar: "العملاء (C:)"
+    },
+    subtitle: {
+      en: "Our client portfolio",
+      fr: "Notre portefeuille clients"
+    },
+    imgSrc: "/img/icons/documents/folder-docs-icon-lg.webp",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: true,
+    isSearchVisible: true,
+    headerPosition: "left",
+    headerToolsId: "default",
+    menuHeaderItemsId: "default",
+    iconSrc: "/img/icons/documents/folder-docs-icon-sm.webp",
+    initPositionX: 220,
+    initPositionY: 120,
+    initWidth: 660,
+    initHeight: 500,
+    minWidth: 400,
+    minHeight: 300,
+    component: "Clients",
+    leftMenuType: "clients"
+  },
+  {
+    id: "sharedDocs",
+    title: {
+      en: "Shared Documents",
+      fr: "Documents Partagés"
+    },
+    subtitle: {
+      en: "Company shared documents"
+    },
+    imgSrc: "/img/icons/documents/folder-docs-icon-lg.webp",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: true,
+    isSearchVisible: true,
+    headerPosition: "left",
+    headerToolsId: "default",
+    menuHeaderItemsId: "default",
+    iconSrc: "/img/icons/documents/folder-docs-icon-sm.webp",
+    initPositionX: 240,
+    initPositionY: 140,
+    initWidth: 660,
+    initHeight: 500,
+    minWidth: 400,
+    minHeight: 300,
+    component: "SharedDocs",
+    leftMenuType: "sharedDocs"
+  },
+  {
+    id: "userDocs",
+    title: {
+      en: "User's Documents",
+      fr: "Documents de l'Utilisateur"
+    },
+    subtitle: {
+      en: "User documents and files"
+    },
+    imgSrc: "/img/icons/documents/folder-docs-icon-lg.webp",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: true,
+    isSearchVisible: true,
+    headerPosition: "left",
+    headerToolsId: "default",
+    menuHeaderItemsId: "default",
+    iconSrc: "/img/icons/documents/folder-docs-icon-sm.webp",
+    initPositionX: 260,
+    initPositionY: 160,
+    initWidth: 660,
+    initHeight: 500,
+    minWidth: 400,
+    minHeight: 300,
+    component: "UserDocs",
+    leftMenuType: "userDocs"
+  },
 ];

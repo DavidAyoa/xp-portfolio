@@ -17,10 +17,10 @@ const Step2Loading: React.FC = () => {
         <div>
           <div className="flex justify-between items-center gap-8 text-white">
             <div>
-              <h1 className="md:text-2xl text-md tracking-tighter font-helvetica-black-italic font-semibold">Welcome to Codepoets</h1>
+              <h1 className="md:text-xl text-sm">Welcome to Codepoets</h1>
             </div>
             <div>
-              <h2 className="md:text-2xl text-md tracking-tighter font-helvetica-black-italic font-semibold">
+              <h2 className="md:text-2xl text-md tracking-tighter font-helvetica-black-italic">
                 Himanshu Desai & Team
               </h2>
             </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { WindowDropDowns } from '../Window/WindowDropDowns';
 import EmailFolderTree from './EmailClient/EmailFolderTree';
 import EmailList from './EmailClient/EmailList';
 import EmailPreview from './EmailClient/EmailPreview';
@@ -13,12 +14,62 @@ interface EmailClientProps {
   isFocus?: boolean;
 }
 
+// Dropdown menu data for Outlook Express style
+const dropDownData = {
+  File: [
+    { type: 'item' as const, text: 'New Message', hotkey: 'Ctrl+N' },
+    { type: 'item' as const, text: 'Open...', hotkey: 'Ctrl+O', disable: true },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Save', hotkey: 'Ctrl+S', disable: true },
+    { type: 'item' as const, text: 'Save As...', disable: true },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Print...', hotkey: 'Ctrl+P', disable: true },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Exit' }
+  ],
+  Edit: [
+    { type: 'item' as const, text: 'Undo', hotkey: 'Ctrl+Z', disable: true },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Cut', hotkey: 'Ctrl+X', disable: true },
+    { type: 'item' as const, text: 'Copy', hotkey: 'Ctrl+C', disable: true },
+    { type: 'item' as const, text: 'Paste', hotkey: 'Ctrl+V', disable: true },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Select All', hotkey: 'Ctrl+A' }
+  ],
+  View: [
+    { type: 'item' as const, text: 'Toolbar' },
+    { type: 'item' as const, text: 'Status Bar' },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Folders' },
+    { type: 'item' as const, text: 'Preview Pane' }
+  ],
+  Tools: [
+    { type: 'item' as const, text: 'Send and Receive', hotkey: 'Ctrl+M' },
+    { type: 'item' as const, text: 'Address Book...', hotkey: 'Ctrl+Shift+B', disable: true },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Options...', disable: true }
+  ],
+  Message: [
+    { type: 'item' as const, text: 'Reply', hotkey: 'Ctrl+R', disable: true },
+    { type: 'item' as const, text: 'Reply to All', hotkey: 'Ctrl+Shift+R', disable: true },
+    { type: 'item' as const, text: 'Forward', hotkey: 'Ctrl+F', disable: true },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'Delete', hotkey: 'Ctrl+D', disable: true }
+  ],
+  Help: [
+    { type: 'item' as const, text: 'Help Topics', hotkey: 'F1' },
+    { type: 'separator' as const },
+    { type: 'item' as const, text: 'About Outlook Express' }
+  ]
+};
+
 const EmailClient: React.FC<EmailClientProps> = ({ onClose, onMinimize, isFocus }) => {
   const [selectedFolder, setSelectedFolder] = useState<string>('inbox');
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   const [isComposing, setIsComposing] = useState(false);
   const [emails] = useState<Email[]>(sampleEmails);
   const [folders] = useState<EmailFolder[]>(sampleFolders);
+  const [isMaximized, setIsMaximized] = useState(false);
 
   const filteredEmails = emails.filter(email => email.folderId === selectedFolder);
 
@@ -32,11 +83,15 @@ const EmailClient: React.FC<EmailClientProps> = ({ onClose, onMinimize, isFocus 
   };
 
   const handleNewMail = () => {
-    setIsComposing(true);
+    // Open compose email as a new window by dispatching a custom event
+    const event = new CustomEvent('openWindow', { detail: 'composeEmail' });
+    window.dispatchEvent(event);
   };
 
   const handleComposeSend = (emailData: { to: string; subject: string; body: string }) => {
-    console.log('Sending email:', emailData);
+    // Create mailto link with proper encoding
+    const mailtoLink = `mailto:${emailData.to}?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.body)}`;
+    window.location.href = mailtoLink;
     setIsComposing(false);
   };
 
@@ -44,16 +99,27 @@ const EmailClient: React.FC<EmailClientProps> = ({ onClose, onMinimize, isFocus 
     setIsComposing(false);
   };
 
+  function onClickOptionItem(item: string) {
+    switch (item) {
+      case 'New Message':
+        handleNewMail();
+        break;
+      case 'Exit':
+        onClose?.();
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <div className="email-client">
       {/* Menu Bar */}
       <div className="email-menu-bar">
-        <div className="email-menu-item">File</div>
-        <div className="email-menu-item">Edit</div>
-        <div className="email-menu-item">View</div>
-        <div className="email-menu-item">Tools</div>
-        <div className="email-menu-item">Message</div>
-        <div className="email-menu-item">Help</div>
+        <WindowDropDowns
+          items={dropDownData}
+          onClickItem={onClickOptionItem}
+        />
       </div>
 
       {/* Toolbar */}
@@ -61,28 +127,6 @@ const EmailClient: React.FC<EmailClientProps> = ({ onClose, onMinimize, isFocus 
         <button className="email-toolbar-btn" onClick={handleNewMail}>
           <img src="/img/icons/email/new-mail.png" alt="New" />
           <span>New Mail</span>
-        </button>
-        <button className="email-toolbar-btn">
-          <img src="/img/icons/email/send-receive.png" alt="Send/Recv" />
-          <span>Send/Recv</span>
-        </button>
-        <div className="email-toolbar-separator"></div>
-        <button className="email-toolbar-btn" disabled={!selectedEmail}>
-          <img src="/img/icons/email/reply.png" alt="Reply" />
-          <span>Reply</span>
-        </button>
-        <button className="email-toolbar-btn" disabled={!selectedEmail}>
-          <img src="/img/icons/email/reply-all.png" alt="Reply All" />
-          <span>Reply All</span>
-        </button>
-        <button className="email-toolbar-btn" disabled={!selectedEmail}>
-          <img src="/img/icons/email/forward.png" alt="Forward" />
-          <span>Forward</span>
-        </button>
-        <div className="email-toolbar-separator"></div>
-        <button className="email-toolbar-btn" disabled={!selectedEmail}>
-          <img src="/img/icons/email/delete.png" alt="Delete" />
-          <span>Delete</span>
         </button>
       </div>
 
@@ -129,14 +173,6 @@ const EmailClient: React.FC<EmailClientProps> = ({ onClose, onMinimize, isFocus 
         </div>
         <div className="email-status-connection">Connected</div>
       </div>
-
-      {/* Compose Email Modal */}
-      {isComposing && (
-        <ComposeEmail
-          onSend={handleComposeSend}
-          onClose={handleComposeClose}
-        />
-      )}
     </div>
   );
 };

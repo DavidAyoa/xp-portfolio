@@ -22,7 +22,7 @@ function HeaderButtons({
   className,
   isFocus,
 }: HeaderButtonsProps) {
-  const baseButtonStyles = "relative w-5 h-5 mr-0.5 border border-white rounded hover:brightness-110 active:brightness-90";
+  const baseButtonStyles = "relative w-[21px] h-[21px] mr-1 border border-white rounded hover:brightness-110 active:brightness-90";
 
   const blueGradientStyle = {
     background: 'radial-gradient(circle at 90% 90%, #0054e9 0%, #2263d5 55%, #4479e4 70%, #a3bbec 90%, white 100%)',
@@ -42,7 +42,7 @@ function HeaderButtons({
         style={blueGradientStyle}
         onMouseUp={onMinimize}
       >
-        <div className="absolute left-1 top-3 h-1 w-2 bg-white" />
+        <div className="absolute left-1/2 top-3 h-0.5 w-2 bg-white transform -translate-x-1/2" />
       </button>
     ),
     maximize: (
@@ -57,22 +57,26 @@ function HeaderButtons({
         {maximized ? (
           <>
             <div
-              className="absolute left-1.5 top-1 h-2 w-2"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-2 w-2"
               style={{
-                boxShadow: 'inset 0 2px white, inset 0 0 0 1px white'
+                boxShadow: 'inset 0 2px white, inset 0 0 0 1px white',
+                marginLeft: '1px',
+                marginTop: '-1px'
               }}
             />
             <div
-              className="absolute left-1 top-1.5 h-2 w-2"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-2 w-2"
               style={{
                 background: '#136dff',
-                boxShadow: 'inset 0 2px white, inset 0 0 0 1px white, 1px -1px #136dff'
+                boxShadow: 'inset 0 2px white, inset 0 0 0 1px white, 1px -1px #136dff',
+                marginLeft: '-1px',
+                marginTop: '1px'
               }}
             />
           </>
         ) : (
           <div
-            className="absolute left-1 top-1 h-3 w-3"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-3 w-3"
             style={{
               boxShadow: 'inset 0 3px white, inset 0 0 0 1px white'
             }}
@@ -87,8 +91,8 @@ function HeaderButtons({
         style={redGradientStyle}
         onMouseUp={onClose}
       >
-        <div className="absolute left-2 top-0.5 h-4 w-0.5 bg-white transform rotate-45" />
-        <div className="absolute left-2 top-0.5 h-4 w-0.5 bg-white transform -rotate-45" />
+        <div className="absolute left-1/2 top-1/2 h-4 w-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 rotate-45" />
+        <div className="absolute left-1/2 top-1/2 h-4 w-0.5 bg-white transform -translate-x-1/2 -translate-y-1/2 -rotate-45" />
       </button>
     ),
   };

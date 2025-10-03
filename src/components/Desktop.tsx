@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ContextMenu from './ContextMenu';
 import NotificationModal from './NotificationModal';
 import useWindows from '../hooks/useWindows';
@@ -19,6 +19,7 @@ import InternetExplorer from './Window/InternetExplorer';
 import Winamp from './Window/Winamp';
 import FileManager from './Window/FileManager';
 import EmailClient from './Window/EmailClient';
+import ComposeEmail from './Window/EmailClient/ComposeEmail';
 
 import { desktopApps } from '../data/desktopApps';
 import type { Entity, WindowEntity } from '../types';
@@ -48,7 +49,7 @@ const Desktop: React.FC<DesktopProps> = ({ currentUser, onLogout }) => {
   const { openWindowIds, addWindow, removeWindow, loadState: loadWindowsState } = useWindows();
   const { playAudio, unmuteAudio } = useVolume();
 
-  const components: Record<string, React.ComponentType<any>> = {
+  const components: Record<string, any> = {
     Terminal: Terminal,
     ContactMe: EmailClient,
     MyProjects: MyProjects,
@@ -59,10 +60,18 @@ const Desktop: React.FC<DesktopProps> = ({ currentUser, onLogout }) => {
     InternetExplorer: InternetExplorer,
     Winamp: Winamp,
     Music: Winamp,
-    FileManager: FileManager,
-    OurComputer: FileManager,
+    FileManager: (props: any) => <FileManager {...props} type="projects" />,
+    OurComputer: (props: any) => <FileManager {...props} type="computer" />,
+    Clients: (props: any) => <FileManager {...props} type="clients" />,
+    SharedDocs: (props: any) => <FileManager {...props} type="sharedDocs" />,
+    UserDocs: (props: any) => <FileManager {...props} type="userDocs" />,
     EmailClient: EmailClient,
     Email: EmailClient,
+    ComposeEmail: (props: any) => <ComposeEmail {...props} onSend={(data: any) => {
+      const mailtoLink = `mailto:${data.to}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+      window.location.href = mailtoLink;
+      props.onClose?.();
+    }} />,
     MyCV: () => <div className="p-4">MyCV component coming soon...</div>,
     Documents: () => <div className="p-4">Documents component coming soon...</div>,
     Calendar: () => <div className="p-4">Calendar component coming soon...</div>,
@@ -97,6 +106,16 @@ Note: We create digital poetry through code!" />,
   const [entities] = useState<Entity[]>(desktopApps);
 
   useEffect(() => {
+    // Event listener for opening windows from other components
+    const handleOpenWindowEvent = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const windowId = customEvent.detail;
+      if (windowId) {
+        openWindow(windowId);
+      }
+    };
+
+    window.addEventListener('openWindow', handleOpenWindowEvent);
 
     loadWindowsState();
 
@@ -118,6 +137,8 @@ Note: We create digital poetry through code!" />,
     }, 2000);
 
     return () => {
+      window.removeEventListener('openWindow', handleOpenWindowEvent);
+
       const script = document.getElementById('spotify-player-script');
       if (script) {
         document.head.removeChild(script);
@@ -129,15 +150,25 @@ Note: We create digital poetry through code!" />,
     setShowHeader(prev => !prev);
   }, []);
 
+  const openingRef = useRef<Set<string>>(new Set());
+
   const openWindow = useCallback((windowId: string) => {
+    // Prevent duplicate opens
+    if (openingRef.current.has(windowId)) {
+      console.log('🎵 Window is already being opened, ignoring duplicate call:', windowId);
+      return;
+    }
+    openingRef.current.add(windowId);
+
     console.log('openWindow called with ID:', windowId);
     console.log('Current entities:', entities.map(e => ({ id: e.id, component: e.component })));
 
     setWindows(prevWindows => {
+      console.log('🎵 Current windows in state:', prevWindows.map(w => ({ id: w.id, component: w.component })));
       const existingWindow = prevWindows.find(window => window.id === windowId);
 
       if (existingWindow) {
-        console.log('Window already exists, bringing to front');
+        console.log('🎵 Window already exists, bringing to front:', existingWindow.id);
           const newZIndex = highestZIndex + 1;
         setHighestZIndex(newZIndex);
 
@@ -152,6 +183,8 @@ Note: We create digital poetry through code!" />,
         );
       }
 
+      console.log('🎵 No existing window found, creating new one');
+
       const entity = entities.find(e => e.id === windowId);
       if (!entity) {
         console.warn('Entity not found for ID:', windowId);
@@ -160,7 +193,9 @@ Note: We create digital poetry through code!" />,
 
       console.log('Creating new window for entity:', entity);
 
-      const newZIndex = highestZIndex + 1;
+      // Calculate new z-index - ComposeEmail should always be on top
+      const maxCurrentZIndex = Math.max(...prevWindows.map(w => w.zIndex || 0), highestZIndex);
+      const newZIndex = maxCurrentZIndex + 1;
       setHighestZIndex(newZIndex);
 
       const componentName = entity.component as keyof typeof components;
@@ -195,6 +230,11 @@ Note: We create digital poetry through code!" />,
 
       addWindow(windowId);
 
+      // Clear the opening flag after a short delay
+      setTimeout(() => {
+        openingRef.current.delete(windowId);
+      }, 100);
+
       return [...prevWindows, newWindow];
     });
 
@@ -202,8 +242,16 @@ Note: We create digital poetry through code!" />,
   }, [entities, highestZIndex, addWindow]);
 
   const closeWindow = useCallback((windowId: string) => {
+    console.log('🎵 Closing window:', windowId);
+
+    // Clear from opening ref if it exists
+    openingRef.current.delete(windowId);
+
     setWindows(prevWindows => {
+      const windowToClose = prevWindows.find(w => w.id === windowId);
+      console.log('🎵 Window to close:', windowToClose);
       const newWindows = prevWindows.filter(window => window.id !== windowId);
+      console.log('🎵 Windows after close:', newWindows.map(w => w.id));
       removeWindow(windowId);
       return newWindows;
     });
@@ -242,11 +290,11 @@ Note: We create digital poetry through code!" />,
             : window
         )
       );
-    }
 
-    // Always set the active window when clicked
-    setActiveWindow(windowId);
-    console.log('🎯 Setting activeWindow to:', windowId);
+      // Only set the active window when it's different
+      setActiveWindow(windowId);
+      console.log('🎯 Setting activeWindow to:', windowId);
+    }
   }, [highestZIndex, activeWindow]);
 
   const maximizeWindow = useCallback((windowId: string) => {
@@ -268,9 +316,8 @@ Note: We create digital poetry through code!" />,
       setContextMenu(null);
     }
 
-    const isClickInsideWindow = (e.target as HTMLElement).closest('[class*="StyledWindow"]') ||
-                               (e.target as HTMLElement).closest('.app__header') ||
-                               (e.target as HTMLElement).closest('.app__content');
+    // Check if click is inside any window container
+    const isClickInsideWindow = (e.target as HTMLElement).closest('.window-container');
     if (!isClickInsideWindow) {
       setActiveWindow(null);
     }
@@ -297,10 +344,11 @@ Note: We create digital poetry through code!" />,
 
     if (!ComponentToRender) {
       console.warn(`Component "${componentName}" not found in components mapping`);
-      return <div className="p-4 text-red-500">Component not found: {componentName}</div>;
+      return () => <div className="p-4 text-red-500">Component not found: {componentName}</div>;
     }
 
-    return <ComponentToRender />;
+    // Return the component itself so Windows.tsx can call it with props
+    return ComponentToRender;
   }, [components]);
 
   return (
@@ -342,7 +390,7 @@ Note: We create digital poetry through code!" />,
           resizable: window.resizable,
           maximized: maximizedWindows.has(window.id),
           minimized: !window.visible,
-          component: () => renderWindowComponent(window.component as string),
+          component: renderWindowComponent(window.component as string),
           zIndex: window.zIndex || 1,
           invisible: (window as any).invisible || false,
           injectProps: {}
@@ -355,7 +403,7 @@ Note: We create digital poetry through code!" />,
       />
 
       <Taskbar
-        apps={windows.map((w, index) => ({
+        apps={windows.filter(w => w.component !== 'ComposeEmail').map((w, index) => ({
           id: w.id, // Use string ID directly
           title: typeof w.title === 'string' ? w.title : w.title.en,
           component: w.component as string,
