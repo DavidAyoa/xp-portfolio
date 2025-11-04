@@ -6,34 +6,62 @@ interface WinampProps {
   onMinimize?: () => void;
 }
 
-// from Webamp demo
-const album = 'netBloc Vol. 24: tiuqottigeloot';
+const album = 'CodePoets Playlist';
 
 const initialTracks = [
   {
-    url: 'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Diablo_Swing_Orchestra_-_01_-_Heroines.mp3',
-    duration: 322.612245,
+    url: '/music/Arz Kiya Hai - Anuv Jain.mp3',
     metaData: {
-      title: 'Heroines',
-      artist: 'Diablo Swing Orchestra',
+      title: 'Arz Kiya Hai',
+      artist: 'Anuv Jain',
       album,
     },
   },
   {
-    url: 'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Eclectek_-_02_-_We_Are_Going_To_Eclecfunk_Your_Ass.mp3',
-    duration: 190.093061,
+    url: '/music/ISHQ - Faheem Abdullah, Rauhan Malik (Lyrics) _ #trending [gKD1AhmpOoU].mp3',
     metaData: {
-      title: 'We Are Going To Eclecfunk Your Ass',
-      artist: 'Eclectek',
+      title: 'ISHQ',
+      artist: 'Faheem Abdullah, Rauhan Malik',
       album,
     },
   },
   {
-    url: 'https://raw.githubusercontent.com/captbaritone/webamp-music/4b556fbf/Auto-Pilot_-_03_-_Seventeen.mp3',
-    duration: 214.622041,
+    url: '/music/Maand - Ajima.mp3',
     metaData: {
-      title: 'Seventeen',
-      artist: 'Auto-Pilot',
+      title: 'Maand',
+      artist: 'Ajima',
+      album,
+    },
+  },
+  {
+    url: '/music/Saal - Ishpreet Singh.mp3',
+    metaData: {
+      title: 'Saal',
+      artist: 'Ishpreet Singh',
+      album,
+    },
+  },
+  {
+    url: '/music/Uyiril Thodum - Kumbalangi Nights.mp3',
+    metaData: {
+      title: 'Uyiril Thodum',
+      artist: 'Kumbalangi Nights',
+      album,
+    },
+  },
+  {
+    url: '/music/Water Packet - Raayan.mp3',
+    metaData: {
+      title: 'Water Packet',
+      artist: 'Raayan',
+      album,
+    },
+  },
+  {
+    url: '/music/Zulfaan - SARRB  Starboy X.mp3',
+    metaData: {
+      title: 'Zulfaan',
+      artist: 'SARRB Starboy X',
       album,
     },
   },

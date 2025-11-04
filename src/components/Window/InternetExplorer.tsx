@@ -5,13 +5,18 @@ import { WindowDropDowns } from './WindowDropDowns';
 interface InternetExplorerProps {
   onClose?: () => void;
   onMinimize?: () => void;
+  initialUrl?: string;
 }
 
-const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose }) => {
-  const [currentUrl, setCurrentUrl] = useState('http://www.google.com/');
+const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose, initialUrl }) => {
+  const defaultUrl = initialUrl || 'http://www.google.com/';
+  const isDirectUrl = !!initialUrl; // Track if this is a direct URL (not archive)
+  const [currentUrl, setCurrentUrl] = useState(defaultUrl);
   const [isLoading, setIsLoading] = useState(false);
-  const [history, setHistory] = useState<{clean: string, archive: string}[]>([
-    { clean: 'http://www.google.com/', archive: 'https://web.archive.org/web/20010901000000/https://google.com' }
+  const [loadError, setLoadError] = useState(false);
+  const [iframeBlocked, setIframeBlocked] = useState(false);
+  const [history, setHistory] = useState<{clean: string, archive: string, isDirect: boolean}[]>([
+    { clean: defaultUrl, archive: initialUrl ? defaultUrl : 'https://web.archive.org/web/20010901000000/https://google.com', isDirect: isDirectUrl }
   ]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
@@ -22,9 +27,11 @@ const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose }) => {
 
   const navigateToUrl = (cleanUrl: string) => {
     setIsLoading(true);
+    setLoadError(false);
+    setIframeBlocked(false);
     setCurrentUrl(cleanUrl);
     const archiveUrl = getArchiveUrl(cleanUrl);
-    const newEntry = { clean: cleanUrl, archive: archiveUrl };
+    const newEntry = { clean: cleanUrl, archive: archiveUrl, isDirect: false };
     setHistory(prev => [...prev.slice(0, historyIndex + 1), newEntry]);
     setHistoryIndex(prev => prev + 1);
     setTimeout(() => setIsLoading(false), 1000);
@@ -36,12 +43,14 @@ const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose }) => {
         if (historyIndex > 0) {
           setHistoryIndex(prev => prev - 1);
           setCurrentUrl(history[historyIndex - 1].clean);
+          setLoadError(false);
         }
         break;
       case 'forward':
         if (historyIndex < history.length - 1) {
           setHistoryIndex(prev => prev + 1);
           setCurrentUrl(history[historyIndex + 1].clean);
+          setLoadError(false);
         }
         break;
       case 'stop':
@@ -49,6 +58,7 @@ const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose }) => {
         break;
       case 'refresh':
         setIsLoading(true);
+        setLoadError(false);
         setTimeout(() => setIsLoading(false), 1000);
         break;
       case 'home':
@@ -281,6 +291,22 @@ const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose }) => {
         <ToolbarButton icon="ie-fax.png" onClick={() => {}} />
         <ToolbarButton icon="ie-write.png" disabled onClick={() => {}} />
         <ToolbarButton icon="ie-avatars.png" onClick={() => {}} />
+
+        <div className="flex-1" />
+
+        {/* Open in New Tab button */}
+        <button
+          onClick={() => window.open(currentUrl, '_blank')}
+          className="px-2 py-1 text-xs rounded hover:bg-gray-200 active:bg-gray-300"
+          style={{
+            fontSize: '11px',
+            fontFamily: 'Tahoma, sans-serif',
+            border: '1px solid rgba(0, 0, 0, 0.2)',
+            backgroundColor: '#f0f0f0'
+          }}
+        >
+          Open in New Tab
+        </button>
       </section>
 
       {/* Address Bar */}
@@ -358,11 +384,75 @@ const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose }) => {
       >
         {isLoading ? (
           <div className="p-5 text-center">Loading...</div>
+        ) : history[historyIndex]?.isDirect ? (
+          // Direct URL (like Zoho Bookings) - show iframe and overlay message
+          <div className="w-full h-full relative">
+            <iframe
+              src={history[historyIndex]?.archive}
+              className="w-full h-full border-none absolute top-0 left-0"
+              title="Internet Explorer"
+              onLoad={() => {
+                // Most modern sites block iframe embedding, show message after delay
+                setTimeout(() => {
+                  setIframeBlocked(true);
+                }, 2000);
+              }}
+            />
+            {/* Overlay message - shows if iframe is blocked or after delay */}
+            {iframeBlocked && (
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-white"
+                style={{
+                  flexDirection: 'column',
+                  gap: '20px',
+                  padding: '40px'
+                }}
+              >
+                <div style={{ fontSize: '14px', fontFamily: 'Tahoma, sans-serif', textAlign: 'center' }}>
+                  <p style={{ marginBottom: '10px', fontWeight: 'bold', fontSize: '16px' }}>This page cannot be displayed in Internet Explorer</p>
+                  <p style={{ marginBottom: '20px', color: '#666', fontSize: '12px' }}>
+                    {currentUrl}
+                  </p>
+                  <p style={{ marginBottom: '20px' }}>
+                    The website has security restrictions that prevent it from being embedded.
+                  </p>
+                </div>
+                <button
+                  onClick={() => window.open(currentUrl, '_blank')}
+                  style={{
+                    fontSize: '13px',
+                    fontFamily: 'Tahoma, sans-serif',
+                    padding: '10px 32px',
+                    border: '1px solid #0066cc',
+                    backgroundColor: '#0066cc',
+                    color: 'white',
+                    borderRadius: '3px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0052a3'}
+                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#0066cc'}
+                >
+                  Open in New Browser Tab
+                </button>
+              </div>
+            )}
+          </div>
+        ) : loadError ? (
+          <iframe
+            src="https://codepoets.digital"
+            className="w-full h-full border-none absolute top-0 left-0"
+            title="Internet Explorer - Fallback"
+          />
         ) : (
           <iframe
             src={history[historyIndex]?.archive || 'https://web.archive.org/web/20010901000000/https://google.com'}
             className="w-full h-full border-none absolute top-0 left-0"
             title="Internet Explorer"
+            onError={() => {
+              console.log('Archive failed to load, falling back to codepoets.digital');
+              setLoadError(true);
+            }}
           />
         )}
       </div>

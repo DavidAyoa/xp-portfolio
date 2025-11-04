@@ -67,11 +67,11 @@ export const desktopApps: Entity[] = [
   {
     id: "contactDetails",
     title: {
-      en: "Contact Details",
-      fr: "Coordonnées",
-      es: "Detalles de Contacto",
-      hi: "संपर्क विवरण",
-      ar: "تفاصيل الاتصال"
+      en: "Contact Us",
+      fr: "Nous Contacter",
+      es: "Contáctenos",
+      hi: "हमसे संपर्क करें",
+      ar: "اتصل بنا"
     },
     subtitle: {
       en: "Our contact information",
@@ -93,6 +93,223 @@ export const desktopApps: Entity[] = [
     minWidth: 300,
     minHeight: 200,
     component: "ContactDetails",
+    leftMenuType: ""
+  },
+  {
+    id: "ourServices",
+    title: {
+      en: "Our Services",
+      fr: "Nos Services",
+      es: "Nuestros Servicios",
+      hi: "हमारी सेवाएं",
+      ar: "خدماتنا"
+    },
+    subtitle: {
+      en: "What we offer",
+      fr: "Ce que nous offrons"
+    },
+    imgSrc: "/img/icons/notepad/notepad-icon-lg.webp",
+    onDesktop: true,
+    resizable: true,
+    windowsHeaderLogo: false,
+    isSearchVisible: true,
+    headerPosition: "right",
+    headerToolsId: "",
+    menuHeaderItemsId: "notepad",
+    iconSrc: "/img/icons/notepad/notepad-icon-sm.webp",
+    initPositionX: 140,
+    initPositionY: 240,
+    initWidth: 600,
+    initHeight: 450,
+    minWidth: 400,
+    minHeight: 300,
+    component: "OurServices",
+    leftMenuType: ""
+  },
+  {
+    id: "aboutUs",
+    title: {
+      en: "About Us",
+      fr: "À Propos de Nous",
+      es: "Sobre Nosotros",
+      hi: "हमारे बारे में",
+      ar: "معلومات عنا"
+    },
+    subtitle: {
+      en: "Who we are",
+      fr: "Qui nous sommes"
+    },
+    imgSrc: "/img/icons/notepad/notepad-icon-lg.webp",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: false,
+    isSearchVisible: true,
+    headerPosition: "right",
+    headerToolsId: "",
+    menuHeaderItemsId: "notepad",
+    iconSrc: "/img/icons/notepad/notepad-icon-sm.webp",
+    initPositionX: 160,
+    initPositionY: 160,
+    initWidth: 650,
+    initHeight: 500,
+    minWidth: 400,
+    minHeight: 300,
+    component: "AboutUs",
+    leftMenuType: ""
+  },
+  {
+    id: "notepad",
+    title: {
+      en: "Notepad",
+      fr: "Bloc-notes",
+      es: "Bloc de notas",
+      hi: "नोटपैड",
+      ar: "المفكرة"
+    },
+    subtitle: {
+      en: "Text Editor",
+      fr: "Éditeur de texte"
+    },
+    imgSrc: "/img/icons/notepad/notepad-icon-lg.webp",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: false,
+    isSearchVisible: true,
+    headerPosition: "right",
+    headerToolsId: "",
+    menuHeaderItemsId: "notepad",
+    iconSrc: "/img/icons/notepad/notepad-icon-sm.webp",
+    initPositionX: 180,
+    initPositionY: 180,
+    initWidth: 500,
+    initHeight: 400,
+    minWidth: 300,
+    minHeight: 200,
+    component: "BlankNotepad",
+    leftMenuType: ""
+  },
+  {
+    id: "scheduleMeeting",
+    title: {
+      en: "Schedule a Meeting",
+      fr: "Planifier une réunion",
+      es: "Programar una reunión",
+      hi: "मीटिंग शेड्यूल करें",
+      ar: "جدولة اجتماع"
+    },
+    subtitle: {
+      en: "Book a meeting with us",
+      fr: "Réserver une réunion avec nous"
+    },
+    imgSrc: "/img/icons/windowsIcons/301(32x32).png",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: true,
+    isSearchVisible: true,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/img/icons/windowsIcons/301(32x32).png",
+    initPositionX: 120,
+    initPositionY: 100,
+    initWidth: 1000,
+    initHeight: 700,
+    minWidth: 800,
+    minHeight: 500,
+    component: "ScheduleMeeting",
+    leftMenuType: ""
+  },
+  {
+    id: "agencyWebsite",
+    title: {
+      en: "Agency Website",
+      fr: "Site Web de l'Agence",
+      es: "Sitio Web de la Agencia",
+      hi: "एजेंसी वेबसाइट",
+      ar: "موقع الوكالة"
+    },
+    subtitle: {
+      en: "Visit our main website",
+      fr: "Visitez notre site principal"
+    },
+    imgSrc: "/img/icons/explorer-icon-lg.webp",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: true,
+    isSearchVisible: true,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/img/icons/explorer-icon-sm.webp",
+    initPositionX: 100,
+    initPositionY: 80,
+    initWidth: 1000,
+    initHeight: 700,
+    minWidth: 800,
+    minHeight: 500,
+    component: "AgencyWebsite",
+    leftMenuType: ""
+  },
+  {
+    id: "ourPictures",
+    title: {
+      en: "Our Pictures",
+      fr: "Nos Images",
+      es: "Nuestras Imágenes",
+      hi: "हमारी तस्वीरें",
+      ar: "صورنا"
+    },
+    subtitle: {
+      en: "Photo Gallery",
+      fr: "Galerie de photos"
+    },
+    imgSrc: "/img/icons/windowsIcons/307(32x32).png",
+    onDesktop: false,
+    resizable: true,
+    windowsHeaderLogo: false,
+    isSearchVisible: true,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/img/icons/windowsIcons/307(32x32).png",
+    initPositionX: 150,
+    initPositionY: 120,
+    initWidth: 800,
+    initHeight: 600,
+    minWidth: 600,
+    minHeight: 400,
+    component: "OurPictures",
+    leftMenuType: ""
+  },
+  {
+    id: "chatWithUs",
+    title: {
+      en: "Chat with Us",
+      fr: "Discutez avec Nous",
+      es: "Chatea con Nosotros",
+      hi: "हमसे बात करें",
+      ar: "تحدث معنا"
+    },
+    subtitle: {
+      en: "WhatsApp Chat",
+      fr: "Discussion WhatsApp"
+    },
+    imgSrc: "/img/Whatsapp.svg",
+    onDesktop: false,
+    resizable: false,
+    windowsHeaderLogo: false,
+    isSearchVisible: false,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/img/Whatsapp.svg",
+    initPositionX: 0,
+    initPositionY: 0,
+    initWidth: 0,
+    initHeight: 0,
+    minWidth: 0,
+    minHeight: 0,
+    component: "ChatWithUs",
     leftMenuType: ""
   },
   {
@@ -129,15 +346,15 @@ export const desktopApps: Entity[] = [
   {
     id: "music",
     title: {
-      en: "Our Music",
-      fr: "Notre Musique",
-      es: "Nuestra Música",
-      hi: "हमारा संगीत",
-      ar: "موسيقانا"
+      en: "Winamp",
+      fr: "Winamp",
+      es: "Winamp",
+      hi: "Winamp",
+      ar: "Winamp"
     },
     subtitle: {
-      en: "Spotify Playlist",
-      fr: "Playlist Spotify"
+      en: "Music Player",
+      fr: "Lecteur de musique"
     },
     imgSrc: "/img/icons/music/winamp-icon-lg.png",
     onDesktop: true,
@@ -161,11 +378,11 @@ export const desktopApps: Entity[] = [
   {
     id: "terminal",
     title: {
-      en: "Command Prompt",
-      fr: "Invite de commandes",
-      es: "Símbolo del sistema",
-      hi: "कमांड प्रॉम्प्ट",
-      ar: "موجه الأوامر"
+      en: "AI Terminal",
+      fr: "Terminal IA",
+      es: "Terminal IA",
+      hi: "एआई टर्मिनल",
+      ar: "محطة الذكاء الاصطناعي"
     },
     subtitle: {
       en: "Talk to Codepoets via AI",
@@ -310,13 +527,17 @@ export const desktopApps: Entity[] = [
     leftMenuType: "clients"
   },
   {
-    id: "sharedDocs",
+    id: "ourDocuments",
     title: {
-      en: "Shared Documents",
-      fr: "Documents Partagés"
+      en: "Our Documents",
+      fr: "Nos Documents",
+      es: "Nuestros Documentos",
+      hi: "हमारे दस्तावेज़",
+      ar: "وثائقنا"
     },
     subtitle: {
-      en: "Company shared documents"
+      en: "Company documents and files",
+      fr: "Documents et fichiers de l'entreprise"
     },
     imgSrc: "/img/icons/documents/folder-docs-icon-lg.webp",
     onDesktop: false,
@@ -333,17 +554,20 @@ export const desktopApps: Entity[] = [
     initHeight: 500,
     minWidth: 400,
     minHeight: 300,
-    component: "SharedDocs",
-    leftMenuType: "sharedDocs"
+    component: "OurDocuments",
+    leftMenuType: "ourDocuments"
   },
   {
-    id: "userDocs",
+    id: "ourTeam",
     title: {
-      en: "User's Documents",
-      fr: "Documents de l'Utilisateur"
+      en: "Our Team",
+      fr: "Notre Équipe",
+      es: "Nuestro Equipo",
+      hi: "हमारी टीम",
+      ar: "فريقنا"
     },
     subtitle: {
-      en: "User documents and files"
+      en: "Team member profiles and information"
     },
     imgSrc: "/img/icons/documents/folder-docs-icon-lg.webp",
     onDesktop: false,
@@ -360,7 +584,7 @@ export const desktopApps: Entity[] = [
     initHeight: 500,
     minWidth: 400,
     minHeight: 300,
-    component: "UserDocs",
-    leftMenuType: "userDocs"
+    component: "OurTeam",
+    leftMenuType: "ourTeam"
   },
 ];

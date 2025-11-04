@@ -76,7 +76,7 @@ const dropDownData = {
 
 interface FileManagerProps {
   onClose?: () => void;
-  type?: 'computer' | 'projects' | 'clients' | 'sharedDocs' | 'userDocs' | 'aboutUsPictures';
+  type?: 'computer' | 'projects' | 'clients' | 'ourDocuments' | 'ourTeam' | 'aboutUsPictures' | 'ourPictures' | 'portfolio' | 'portfolioWebsite' | 'portfolioBranding' | 'portfolioTech' | 'portfolioMarketing' | 'makeADifference' | 'mudNMoon' | 'copperwell' | 'bolt';
 }
 
 function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
@@ -91,9 +91,19 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
 
   const isProjects = currentView === 'projects';
   const isClients = currentView === 'clients';
-  const isSharedDocs = currentView === 'sharedDocs';
-  const isUserDocs = currentView === 'userDocs';
+  const isOurDocuments = currentView === 'ourDocuments';
+  const isOurTeam = currentView === 'ourTeam';
   const isAboutUsPictures = currentView === 'aboutUsPictures';
+  const isOurPictures = currentView === 'ourPictures';
+  const isPortfolio = currentView === 'portfolio';
+  const isPortfolioWebsite = currentView === 'portfolioWebsite';
+  const isPortfolioBranding = currentView === 'portfolioBranding';
+  const isPortfolioTech = currentView === 'portfolioTech';
+  const isPortfolioMarketing = currentView === 'portfolioMarketing';
+  const isMakeADifference = currentView === 'makeADifference';
+  const isMudNMoon = currentView === 'mudNMoon';
+  const isCopperwell = currentView === 'copperwell';
+  const isBolt = currentView === 'bolt';
 
   const canGoBack = historyIndex > 0;
   const canGoForward = historyIndex < history.length - 1;
@@ -125,15 +135,19 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
   // Image viewer handlers
   const openImageViewer = (index: number) => {
     setSelectedImageIndex(index);
-    setViewerMode('scroll');
+    // Open in carousel mode for ourPictures, scroll mode for others
+    const initialMode = isOurPictures ? 'carousel' : 'scroll';
+    setViewerMode(initialMode);
 
-    // Scroll to the selected image after a brief delay for rendering
-    setTimeout(() => {
-      const imageElement = document.getElementById(`scroll-image-${index}`);
-      if (imageElement) {
-        imageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
+    // Scroll to the selected image after a brief delay for rendering (only for scroll mode)
+    if (initialMode === 'scroll') {
+      setTimeout(() => {
+        const imageElement = document.getElementById(`scroll-image-${index}`);
+        if (imageElement) {
+          imageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
   };
 
   const handleImageClick = () => {
@@ -148,12 +162,12 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
   };
 
   const nextImage = () => {
-    setSelectedImageIndex((prev) => (prev + 1) % aboutUsPictures.length);
+    setSelectedImageIndex((prev) => (prev + 1) % currentPictures.length);
   };
 
   const prevImage = () => {
     setSelectedImageIndex((prev) => {
-      const picturesLength = aboutUsPictures?.length || 5;
+      const picturesLength = currentPictures?.length || 5;
       return (prev - 1 + picturesLength) % picturesLength;
     });
   };
@@ -181,11 +195,6 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
     { name: 'Prime Industries', icon: assets.folder },
   ];
 
-  // Shared Documents content (has files, use folder)
-  const sharedDocuments = [
-    { name: 'Information About Us', icon: assets.folder, onClick: () => navigateTo('aboutUsPictures') },
-  ];
-
   // About Us Pictures
   const aboutUsPictures = [
     { name: 'Luffy One Piece 4k Wallpaper', src: '/pictures/Luffy One Piece 4k Wallpaper.jpg' },
@@ -195,10 +204,34 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
     { name: 'wallpaperflare.com_wallpaper', src: '/pictures/wallpaperflare.com_wallpaper.jpg' },
   ];
 
-  // User Documents content (txt file, use txt icon)
-  const userDocuments = [
-    { name: 'Team Members.txt', icon: assets.txtIcon },
+  // Our Pictures
+  const ourPictures = [
+    { name: 'c1', src: '/pictures/our_pictures/c1.jpg' },
+    { name: 'c2', src: '/pictures/our_pictures/c2.jpg' },
+    { name: 'c3', src: '/pictures/our_pictures/c3.jpg' },
+    { name: 'c4', src: '/pictures/our_pictures/c4.jpg' },
+    { name: 'c5', src: '/pictures/our_pictures/c5.jpg' },
+    { name: 'c6', src: '/pictures/our_pictures/c6.jpg' },
   ];
+
+  // Current pictures based on view type
+  const currentPictures = isOurPictures ? ourPictures : aboutUsPictures;
+
+  // Our Documents content (PDF files) - was sharedDocuments
+  const ourDocumentsData = [
+    { name: 'Codepoets Visiting card 2025 (1).pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_documents/Codepoets Visiting card 2025 (1).pdf' },
+    { name: 'Logo _ Branding Questionnaire - 2025.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_documents/Logo _ Branding Questionnaire - 2025.pdf' },
+    { name: 'Website Design Questionnaire - 2025.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_documents/Website Design Questionnaire - 2025.pdf' },
+  ];
+
+  // Our Team content (team member files) - was userDocuments
+  const ourTeamData = [
+    { name: 'CEO Profile.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/CEO Profile.pdf' },
+    { name: 'CTO Profile.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/CTO Profile.pdf' },
+    { name: 'Team Organigram.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/Team Organigram.pdf' },
+    { name: 'Join Us.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/Join Us.pdf' },
+  ];
+
   function onClickOptionItem(item: string) {
     switch (item) {
       case 'Close':
@@ -298,18 +331,38 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
       <section className="flex-shrink-0 border-t border-white/70 h-5 text-[11px] flex items-center px-[2px] shadow-[inset_0_-2px_3px_-1px_#b0b0b0]">
         <div className="text-black/50 px-[5px] leading-[100%]">Address</div>
         <div className="border border-[rgba(122,122,255,0.6)] h-full flex flex-1 items-center bg-white relative">
-          <img className="w-[14px] h-[14px]" src={isAboutUsPictures || isSharedDocs || isUserDocs ? assets.folder : isClients ? assets.cd : isProjects ? assets.folder : assets.computer} alt="folder" />
+          <img className="w-[14px] h-[14px]" src={isAboutUsPictures || isOurPictures || isOurDocuments || isOurTeam || isPortfolio || isPortfolioWebsite || isPortfolioBranding || isPortfolioTech || isPortfolioMarketing || isMakeADifference || isMudNMoon || isCopperwell || isBolt ? assets.folder : isClients ? assets.cd : isProjects ? assets.folder : assets.computer} alt="folder" />
           <div className="whitespace-nowrap absolute left-4 right-[17px] overflow-hidden text-ellipsis">
             {isAboutUsPictures
-              ? 'My Computer > Shared Documents > Information About Us'
-              : isSharedDocs
-              ? 'My Computer > Shared Documents'
-              : isUserDocs
-              ? "My Computer > User's Documents"
+              ? 'My Computer > Our Documents > Information About Us'
+              : isOurPictures
+              ? 'My Computer > Our Pictures'
+              : isOurDocuments
+              ? 'My Computer > Our Documents'
+              : isOurTeam
+              ? 'My Computer > Our Team'
               : isClients
               ? 'My Computer > Clients (C:)'
               : isProjects
               ? 'My Computer > Our Work'
+              : isPortfolio
+              ? 'My Computer > Portfolio (P:)'
+              : isPortfolioWebsite
+              ? 'My Computer > Portfolio (P:) > Website'
+              : isPortfolioBranding
+              ? 'My Computer > Portfolio (P:) > Branding'
+              : isPortfolioTech
+              ? 'My Computer > Portfolio (P:) > Tech'
+              : isPortfolioMarketing
+              ? 'My Computer > Portfolio (P:) > Marketing'
+              : isMakeADifference
+              ? 'My Computer > Portfolio (P:) > Website > Make a Difference'
+              : isMudNMoon
+              ? 'My Computer > Portfolio (P:) > Branding > Mud N Moon'
+              : isCopperwell
+              ? 'My Computer > Portfolio (P:) > Branding > Copperwell'
+              : isBolt
+              ? 'My Computer > Portfolio (P:) > Branding > Bolt'
               : 'My Computer'}
           </div>
           <img
@@ -338,111 +391,116 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
               <div className="px-[10px] py-[5px] bg-gradient-to-r from-[rgb(180,200,251)] via-[rgb(164,185,251)] to-[rgb(180,200,251)] bg-[rgba(198,211,255,0.87)]">
                 <div className="flex mb-[2px]">
                   <img className="w-[14px] h-[14px] mr-[5px]" src={assets.viewInfo} alt="view" />
-                  <div className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline">
+                  <div
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                    onClick={() => window.open('https://wa.me/919722558800/?text=Project', '_blank')}
+                  >
                     Start a new project
                   </div>
                 </div>
                 <div className="flex mb-[2px]">
                   <img className="w-[14px] h-[14px] mr-[5px]" src={assets.remove} alt="remove" />
                   <div className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline">
-                    See Traditional Website
+                    See Agency Website
                   </div>
                 </div>
                 <div className="flex mb-[2px]">
                   <img className="w-[14px] h-[14px] mr-[5px]" src={assets.control} alt="control" />
-                  <div className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline">
+                  <div
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                    onClick={() => window.open('https://wa.me/919722558800/?text=Join', '_blank')}
+                  >
                     Join our team
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Other Places Card */}
+            {/* Our Offices Card */}
             <div className="rounded-t-[3px] w-full overflow-hidden mb-3">
               <div className="flex items-center h-[23px] pl-[11px] pr-[2px] cursor-pointer bg-gradient-to-r from-[rgb(240,240,255)] via-[rgb(240,240,255)] to-[rgb(168,188,255)]">
-                <div className="font-bold text-[#0c327d] flex-1 text-[11px]">Other Places</div>
-                <img className="w-[18px] h-[18px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.3)]" src={assets.pullup} alt="pullup" />
-              </div>
-              <div className="px-[10px] py-[5px] bg-gradient-to-r from-[rgb(180,200,251)] via-[rgb(164,185,251)] to-[rgb(180,200,251)] bg-[rgba(198,211,255,0.87)]">
-                <div className="mb-[2px]">
-                  <div className="font-bold text-[10px] leading-[14px] text-[#0c327d] mb-1">Our Offices</div>
-                  <div className="flex mb-[2px]">
-                    <img className="w-[14px] h-[14px] mr-[5px]" src={assets.network} alt="network" />
-                    <a
-                      href="https://maps.google.com/?q=New+York+City"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
-                    >
-                      New York
-                    </a>
-                  </div>
-                  <div className="flex mb-[2px]">
-                    <img className="w-[14px] h-[14px] mr-[5px]" src={assets.network} alt="network" />
-                    <a
-                      href="https://maps.google.com/?q=London+UK"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
-                    >
-                      London
-                    </a>
-                  </div>
-                  <div className="flex mb-[2px]">
-                    <img className="w-[14px] h-[14px] mr-[5px]" src={assets.network} alt="network" />
-                    <a
-                      href="https://maps.google.com/?q=Tokyo+Japan"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
-                    >
-                      Tokyo
-                    </a>
-                  </div>
-                  <div className="flex mb-[2px]">
-                    <img className="w-[14px] h-[14px] mr-[5px]" src={assets.network} alt="network" />
-                    <a
-                      href="https://maps.google.com/?q=Dubai+UAE"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
-                    >
-                      Dubai
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Details Card */}
-            <div className="rounded-t-[3px] w-full overflow-hidden">
-              <div className="flex items-center h-[23px] pl-[11px] pr-[2px] cursor-pointer bg-gradient-to-r from-[rgb(240,240,255)] via-[rgb(240,240,255)] to-[rgb(168,188,255)]">
-                <div className="font-bold text-[#0c327d] flex-1 text-[11px]">Details</div>
+                <div className="font-bold text-[#0c327d] flex-1 text-[11px]">Our Offices</div>
                 <img className="w-[18px] h-[18px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.3)]" src={assets.pullup} alt="pullup" />
               </div>
               <div className="px-[10px] py-[5px] bg-gradient-to-r from-[rgb(180,200,251)] via-[rgb(164,185,251)] to-[rgb(180,200,251)] bg-[rgba(198,211,255,0.87)]">
                 <div className="flex mb-[2px]">
-                  <img className="w-[14px] h-[14px] mr-[5px]" src={assets.logo} alt="github" />
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/india.png" alt="India" />
                   <a
-                    href="https://github.com/DavidAyoa/xp-portfolio"
+                    href="https://codepoets.digital/indiaoffice"
                     target="_blank"
                     rel="noreferrer"
                     className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
                   >
-                    GitHub Repository
+                    Gandhinagar
+                  </a>
+                </div>
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/united-states.png" alt="USA" />
+                  <a
+                    href="https://codepoets.digital/usaoffice"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    Los Angeles
+                  </a>
+                </div>
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/united-arab-emirates.png" alt="UAE" />
+                  <a
+                    href="https://codepoets.digital/uaeoffice"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    Dubai
+                  </a>
+                </div>
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/united-kingdom.png" alt="UK" />
+                  <a
+                    href="https://codepoets.digital/ukoffice"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    London
+                  </a>
+                </div>
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/nigeria.png" alt="Nigeria" />
+                  <a
+                    href="https://codepoets.digital/nigeriaoffice"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    Lagos
+                  </a>
+                </div>
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/kenya.png" alt="Kenya" />
+                  <a
+                    href="https://codepoets.digital/kenyaoffice"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    Nairobi
                   </a>
                 </div>
               </div>
             </div>
+
           </div>
 
           {/* Right Content */}
           <div className="h-full overflow-auto bg-white flex-1">
-            {isAboutUsPictures ? (
+            {isAboutUsPictures || isOurPictures ? (
               /* About Us Pictures View */
               <div className="p-4">
                 <div className="flex flex-wrap gap-3">
-                  {aboutUsPictures.map((image, index) => (
+                  {(isOurPictures ? ourPictures : aboutUsPictures).map((image, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-center cursor-pointer p-2 hover:bg-[#e6f3ff] border border-transparent hover:border-[#99ccff] rounded"
@@ -484,38 +542,70 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                   ))}
                 </div>
               </div>
-            ) : isSharedDocs ? (
-              /* Shared Documents View */
+            ) : isOurDocuments ? (
+              /* Our Documents View - PDF Files (was Shared Documents) */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
-                  Shared Documents
+                  Our Documents
                 </div>
                 <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  {sharedDocuments.map((doc, index) => (
+                  {ourDocumentsData.map((doc, index) => (
                     <div
                       key={index}
-                      className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
-                      onDoubleClick={doc.onClick}
+                      className="flex flex-col items-center w-[120px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-2 rounded group"
+                      onDoubleClick={() => window.open(doc.url, '_blank')}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        const link = document.createElement('a');
+                        link.href = doc.url;
+                        link.download = doc.name;
+                        link.click();
+                      }}
                     >
-                      <img className="w-[45px] h-[45px] mr-[5px]" src={doc.icon} alt="document" />
-                      <div className="whitespace-nowrap h-full">{doc.name}</div>
+                      <img className="w-[48px] h-[48px] mb-1" src={doc.icon} alt="pdf" />
+                      <div className="text-xs text-center break-words w-full">{doc.name}</div>
+                      <div className="text-[10px] text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Double-click to open
+                      </div>
                     </div>
                   ))}
+                </div>
+                <div className="px-[15px] text-xs text-gray-600 mt-2">
+                  <p>• Double-click to open in new tab</p>
+                  <p>• Right-click to download</p>
                 </div>
               </div>
-            ) : isUserDocs ? (
-              /* User Documents View */
+            ) : isOurTeam ? (
+              /* Our Team View - Team member files (was User Documents) */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
-                  User's Documents
+                  Our Team
                 </div>
                 <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  {userDocuments.map((doc, index) => (
-                    <div key={index} className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded">
-                      <img className="w-[45px] h-[45px] mr-[5px]" src={doc.icon} alt="document" />
-                      <div className="whitespace-nowrap h-full">{doc.name}</div>
+                  {ourTeamData.map((doc, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center w-[120px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-2 rounded group"
+                      onDoubleClick={() => window.open(doc.url, '_blank')}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        const link = document.createElement('a');
+                        link.href = doc.url;
+                        link.download = doc.name;
+                        link.click();
+                      }}
+                    >
+                      <img className="w-[48px] h-[48px] mb-1" src={doc.icon} alt="pdf" />
+                      <div className="text-xs text-center break-words w-full">{doc.name}</div>
+                      <div className="text-[10px] text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Double-click to open
+                      </div>
                     </div>
                   ))}
+                </div>
+                <div className="px-[15px] text-xs text-gray-600 mt-2">
+                  <p>• Double-click to open in new tab</p>
+                  <p>• Right-click to download</p>
                 </div>
               </div>
             ) : isClients ? (
@@ -548,6 +638,112 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                   ))}
                 </div>
               </div>
+            ) : isPortfolioWebsite ? (
+              /* Portfolio > Website */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Website Projects
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div
+                    className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                    onDoubleClick={() => navigateTo('makeADifference')}
+                  >
+                    <img className="w-[45px] h-[45px] mr-[5px]" src={assets.folder} alt="folder" />
+                    <div className="whitespace-nowrap h-full">Make a Difference</div>
+                  </div>
+                </div>
+              </div>
+            ) : isPortfolioBranding ? (
+              /* Portfolio > Branding */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Branding Projects
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div
+                    className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                    onDoubleClick={() => navigateTo('mudNMoon')}
+                  >
+                    <img className="w-[45px] h-[45px] mr-[5px]" src={assets.folder} alt="folder" />
+                    <div className="whitespace-nowrap h-full">Mud N Moon</div>
+                  </div>
+                  <div
+                    className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                    onDoubleClick={() => navigateTo('copperwell')}
+                  >
+                    <img className="w-[45px] h-[45px] mr-[5px]" src={assets.folder} alt="folder" />
+                    <div className="whitespace-nowrap h-full">Copperwell</div>
+                  </div>
+                  <div
+                    className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                    onDoubleClick={() => navigateTo('bolt')}
+                  >
+                    <img className="w-[45px] h-[45px] mr-[5px]" src={assets.folder} alt="folder" />
+                    <div className="whitespace-nowrap h-full">Bolt</div>
+                  </div>
+                </div>
+              </div>
+            ) : isMakeADifference ? (
+              /* Portfolio > Website > Make a Difference - Empty */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Make a Difference
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                </div>
+              </div>
+            ) : isMudNMoon ? (
+              /* Portfolio > Branding > Mud N Moon - Empty */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Mud N Moon
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                </div>
+              </div>
+            ) : isCopperwell ? (
+              /* Portfolio > Branding > Copperwell - Empty */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Copperwell
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                </div>
+              </div>
+            ) : isBolt ? (
+              /* Portfolio > Branding > Bolt - Empty */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Bolt
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                </div>
+              </div>
+            ) : isPortfolioTech ? (
+              /* Portfolio > Tech - Empty */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Tech Projects
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                </div>
+              </div>
+            ) : isPortfolioMarketing ? (
+              /* Portfolio > Marketing - Empty */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  Marketing Projects
+                </div>
+                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
+                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                </div>
+              </div>
             ) : (
               <>
                 {/* Files Stored on This Computer */}
@@ -558,42 +754,54 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                   <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
                     <div
                       className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
-                      onDoubleClick={() => navigateTo('sharedDocs')}
+                      onDoubleClick={() => navigateTo('ourDocuments')}
                     >
                       <img className="w-[45px] h-[45px] mr-[5px]" src={assets.folder} alt="folder" />
-                      <div className="whitespace-nowrap h-full">Shared Documents</div>
+                      <div className="whitespace-nowrap h-full">Our Documents</div>
                     </div>
                     <div
                       className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
-                      onDoubleClick={() => navigateTo('userDocs')}
+                      onDoubleClick={() => navigateTo('ourTeam')}
                     >
                       <img className="w-[45px] h-[45px] mr-[5px]" src={assets.folder} alt="folder" />
-                      <div className="whitespace-nowrap h-full">User's Documents</div>
+                      <div className="whitespace-nowrap h-full">Our Team</div>
                     </div>
                   </div>
                 </div>
 
-                {/* Hard Disk Drives */}
+                {/* Portfolio */}
                 <div className="mb-4">
                   <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
-                    Hard Disk Drives
+                    Portfolio
                   </div>
                   <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                    <div className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded">
+                    <div
+                      className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                      onDoubleClick={() => navigateTo('portfolioWebsite')}
+                    >
                       <img className="w-[45px] h-[45px] mr-[5px]" src={assets.disk} alt="disk" />
-                      <div className="whitespace-nowrap h-full">B: Branding</div>
+                      <div className="whitespace-nowrap h-full">W: Website</div>
                     </div>
-                    <div className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded">
-                      <img className="w-[45px] h-[45px] mr-[5px]" src={assets.disk} alt="disk" />
-                      <div className="whitespace-nowrap h-full">M: Marketing</div>
-                    </div>
-                    <div className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded">
+                    <div
+                      className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                      onDoubleClick={() => navigateTo('portfolioTech')}
+                    >
                       <img className="w-[45px] h-[45px] mr-[5px]" src={assets.disk} alt="disk" />
                       <div className="whitespace-nowrap h-full">T: Tech</div>
                     </div>
-                    <div className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded">
+                    <div
+                      className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                      onDoubleClick={() => navigateTo('portfolioMarketing')}
+                    >
                       <img className="w-[45px] h-[45px] mr-[5px]" src={assets.disk} alt="disk" />
-                      <div className="whitespace-nowrap h-full">W: Web</div>
+                      <div className="whitespace-nowrap h-full">M: Marketing</div>
+                    </div>
+                    <div
+                      className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                      onDoubleClick={() => navigateTo('portfolioBranding')}
+                    >
+                      <img className="w-[45px] h-[45px] mr-[5px]" src={assets.disk} alt="disk" />
+                      <div className="whitespace-nowrap h-full">B: Branding</div>
                     </div>
                   </div>
                 </div>
@@ -684,7 +892,7 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
             /* Scroll Mode - Vertical Stack */
             <div className="w-full h-full overflow-y-auto overflow-x-hidden">
               <div className="flex flex-col items-center gap-0 py-8">
-                {aboutUsPictures.map((image, index) => (
+                {(isOurPictures ? ourPictures : aboutUsPictures).map((image, index) => (
                   <div
                     key={index}
                     id={`scroll-image-${index}`}
@@ -716,8 +924,8 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
               {/* Current Image */}
               <div className="flex items-center justify-center" style={{ maxHeight: '70vh' }}>
                 <img
-                  src={aboutUsPictures[selectedImageIndex].src}
-                  alt={aboutUsPictures[selectedImageIndex].name}
+                  src={currentPictures[selectedImageIndex].src}
+                  alt={currentPictures[selectedImageIndex].name}
                   style={{ width: 'auto', height: '70vh', maxWidth: '90vw', objectFit: 'contain', display: 'block' }}
                 />
               </div>
@@ -734,10 +942,10 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
               {/* Image Name at Bottom */}
               <div className="absolute bottom-8 left-0 right-0 text-center">
                 <div className="text-white" style={{ fontSize: '16px', fontFamily: 'Tahoma, sans-serif' }}>
-                  {aboutUsPictures[selectedImageIndex].name}
+                  {currentPictures[selectedImageIndex].name}
                 </div>
                 <div className="text-white mt-1" style={{ fontSize: '12px', opacity: 0.7 }}>
-                  {selectedImageIndex + 1} / {aboutUsPictures.length}
+                  {selectedImageIndex + 1} / {currentPictures.length}
                 </div>
               </div>
             </div>

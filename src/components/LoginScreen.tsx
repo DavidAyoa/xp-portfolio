@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 interface LoginScreenProps {
   onLogin: (username: string) => void;
@@ -40,7 +41,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
 
   const handleUserSelect = (username: string) => {
     setSelectedUser(username);
-    // Auto-login after selection for better UX
+    
     setTimeout(() => onLogin(username), 500);
   };
 
@@ -91,27 +92,33 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
       {/* User Selection */}
       <div className="flex-1 flex items-center justify-center">
         <div className="flex gap-8">
-          {users.map((user) => (
+          {users.filter(user => user.name !== 'guest').map((user) => (
             <div
               key={user.name}
               onClick={() => handleUserSelect(user.name)}
-              className={`relative bg-white/10 backdrop-blur-sm rounded-lg p-6 cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-white/20 border-2 ${
+              className={clsx(
+                'relative bg-white/10 backdrop-blur-sm rounded-lg p-6 cursor-pointer transition-all duration-300',
+                'hover:scale-105 hover:bg-white/20 border-2 flex flex-col',
                 selectedUser === user.name
                   ? 'border-white shadow-2xl bg-white/25'
                   : 'border-transparent hover:border-white/50'
-              }`}
+              )}
             >
               {/* User Avatar */}
-              <div className="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/30">
+              <div className="w-24 h-24 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/30">
                 {user.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt={user.displayName}
-                    className="w-12 h-12 object-contain"
-                    style={{ opacity: imagesLoaded ? 1 : 0, transition: 'opacity 0.1s' }}
-                  />
+                  <div className="w-16 h-16">
+                    <img
+                      src={user.avatar}
+                      alt={user.displayName}
+                      className={clsx(
+                        'w-full h-full object-contain transition-opacity duration-100',
+                        imagesLoaded ? 'opacity-100' : 'opacity-0'
+                      )}
+                    />
+                  </div>
                 ) : (
-                  <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                  <div className="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center text-white text-3xl font-bold">
                     {user.displayName[0]}
                   </div>
                 )}
@@ -119,7 +126,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
 
               {/* User Name */}
               <div className="text-center">
-                <h3 className="text-white font-semibold text-lg mb-1" style={{ letterSpacing: '0' }}>
+                <h3 className="text-white font-semibold text-lg mb-1 tracking-normal">
                   {user.displayName}
                 </h3>
                 {user.isAdmin && (

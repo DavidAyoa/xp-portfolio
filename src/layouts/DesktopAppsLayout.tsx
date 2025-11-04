@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import clsx from 'clsx';
 import type { Entity } from '../types';
+import { useLanguage } from '../hooks/useLanguage';
 
 interface LocalEntity extends Omit<Entity, 'title'> {
   title: Record<string, string>;
@@ -30,6 +31,7 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
   const [clickCount, setClickCount] = useState(0);
   const [lastClickTime, setLastClickTime] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { currentLanguage } = useLanguage();
 
   // Initialize and update local entities when entities or language changes
   useEffect(() => {
@@ -48,7 +50,7 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
         };
       })
     );
-  }, [entities]);
+  }, [entities, currentLanguage]);
 
   // Check if mobile
   useEffect(() => {
@@ -174,13 +176,10 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
   }, [isMobile, removeFilterAndToggle]);
 
   const getLocalizedTitle = (entity: { title: string | Record<string, string> }) => {
-    // If title is a string, return it directly
     if (typeof entity.title === 'string') {
       return entity.title;
     }
-    // If title is a record, use English by default, fallback to first available
-    const currentLang = 'en'; // Since we don't have i18n, default to English
-    return entity.title[currentLang] || entity.title.en || entity.title['fr'] || Object.values(entity.title)[0] || '';
+    return entity.title[currentLanguage] || entity.title.en || Object.values(entity.title)[0] || '';
   };
 
   const desktopEntities = localEntities.filter((entity) => entity.onDesktop);

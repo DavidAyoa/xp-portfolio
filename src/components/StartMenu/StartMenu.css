@@ -208,6 +208,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 4px;
+  cursor: pointer;
 }
 
 .menu__left .menu__item {

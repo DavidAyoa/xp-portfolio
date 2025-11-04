@@ -171,6 +171,21 @@ body {
   }
 }
 
+@media (max-width: 768px) {
+  .loading-box {
+    width: 0.75rem;
+  }
+
+  @keyframes loader {
+    0% {
+      transform: translate(-80px);
+    }
+    100% {
+      transform: translate(180px);
+    }
+  }
+}
+
 /* Font families */
 .font-franklin-gothic {
   font-family: 'Franklin Gothic Medium', sans-serif;

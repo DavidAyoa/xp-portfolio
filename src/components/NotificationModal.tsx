@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface NotificationModalProps {
@@ -10,7 +10,6 @@ interface NotificationModalProps {
 
 const NotificationModal: React.FC<NotificationModalProps> = ({
   onToggleFullscreen,
-  showOnLogin = false,
   triggerShow = false,
   onClose
 }) => {

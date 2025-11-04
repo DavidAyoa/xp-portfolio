@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import SubMenu from './SubMenu';
 import './StartMenu.css';
+import { useLanguage } from '../../hooks/useLanguage';
+import { desktopApps } from '../../data/desktopApps';
 
 interface StartMenuProps {
   className?: string;
@@ -21,8 +23,16 @@ interface MenuItem {
 
 const StartMenu: React.FC<StartMenuProps> = ({ className, onClick, currentUser = "Guest" }) => {
   const [hovering, setHovering] = useState('');
+  const { currentLanguage } = useLanguage();
 
-  const allProgramsData: MenuItem[] = [
+  const getLocalizedTitle = (id: string) => {
+    const app = desktopApps.find(a => a.id === id);
+    if (!app) return '';
+    return typeof app.title === 'string' ? app.title : (app.title[currentLanguage] || app.title.en || '');
+  };
+
+  // Re-compute menu items when language changes
+  const allProgramsData: MenuItem[] = React.useMemo(() => [
     {
       type: 'item',
       icon: '/img/icons/windowsIcons/227(32x32).png',
@@ -39,26 +49,21 @@ const StartMenu: React.FC<StartMenuProps> = ({ className, onClick, currentUser =
         {
           type: 'item',
           icon: '/img/icons/cmd-icon-sm.webp',
-          text: 'Command Prompt',
-        },
-        {
-          type: 'item',
-          icon: '/img/icons/notepad/notepad-icon-sm.webp',
-          text: 'Notepad',
+          text: getLocalizedTitle('terminal'),
         },
         {
           type: 'item',
           icon: '/img/icons/paint.png',
-          text: 'Paint',
+          text: getLocalizedTitle('paint'),
         },
       ],
     },
     {
       type: 'item',
-      icon: '/img/icons/explorer-icon-sm.webp',
-      text: 'Internet Explorer',
+      icon: '/img/icons/notepad/notepad-icon-sm.webp',
+      text: getLocalizedTitle('notepad'),
     },
-  ];
+  ], [currentLanguage]);
 
   const myRecentDocuments: MenuItem[] = [
     {
@@ -146,14 +151,17 @@ const StartMenu: React.FC<StartMenuProps> = ({ className, onClick, currentUser =
 
         {/* Left Panel */}
         <div className="menu__left">
+          <MenuItem text={getLocalizedTitle('internetExplorer')} icon="/img/icons/explorer-icon-sm.webp" subtext="Browse the web" />
+          <MenuItem text="E-mail" icon="/img/icons/contact/email-icon-sm.webp" subtext={getLocalizedTitle('contact')} />
+          <div className="menu__separator"></div>
           <MenuItems
             items={[
-              { icon: '/img/icons/computer-icon-lg.png', text: 'Our Computer' },
-              { icon: '/img/icons/contact/email-icon-sm.webp', text: 'Mail Us' },
-              { icon: '/img/icons/notepad/notepad-icon-sm.webp', text: 'Contact Details' },
-              { icon: '/img/icons/documents/folder-docs-icon-sm.webp', text: 'Our Work' },
-              { icon: '/img/icons/music/winamp-icon-lg.png', text: 'Our Music' },
-              { icon: '/img/icons/cmd-icon-sm.webp', text: 'Command Prompt' },
+              { icon: '/img/icons/computer-icon-lg.png', text: getLocalizedTitle('ourComputer') },
+              { icon: '/img/icons/notepad/notepad-icon-sm.webp', text: getLocalizedTitle('contactDetails') },
+              { icon: '/img/icons/documents/folder-docs-icon-sm.webp', text: getLocalizedTitle('myProjects') },
+              { icon: '/img/icons/music/winamp-icon-lg.png', text: getLocalizedTitle('music') },
+              { icon: '/img/icons/paint.png', text: getLocalizedTitle('paint') },
+              { icon: '/img/icons/cmd-icon-sm.webp', text: getLocalizedTitle('terminal') },
             ]}
           />
 
@@ -195,12 +203,28 @@ const StartMenu: React.FC<StartMenuProps> = ({ className, onClick, currentUser =
         <div className="menu__right">
           <MenuItems
             items={[
-              { icon: '/img/icons/notepad/notepad-icon-sm.webp', text: 'About Us' },
-              { icon: '/img/icons/windowsIcons/301(32x32).png', text: 'Schedule a Meeting' },
-              { icon: '/img/icons/documents/folder-docs-icon-sm.webp', text: 'Our Pictures' },
-              { icon: '/img/icons/documents/folder-docs-icon-sm.webp', text: 'Our Documents' },
-              { icon: '/img/icons/explorer-icon-sm.webp', text: 'Traditional Website' },
-              { icon: '/img/Whatsapp.svg', text: 'WhatsApp Messenger' },
+              { icon: '/img/icons/documents/folder-docs-icon-sm.webp', text: getLocalizedTitle('ourDocuments') },
+              { icon: '/img/icons/windowsIcons/301(32x32).png', text: 'My Recent Documents' },
+              { icon: '/windowsIcons/307(32x32).png', text: getLocalizedTitle('ourPictures') },
+              { icon: '/img/icons/music/winamp-icon-lg.png', text: getLocalizedTitle('music') },
+              { icon: '/img/icons/computer-icon-lg.png', text: getLocalizedTitle('ourComputer') },
+            ]}
+          />
+          <div className="menu__separator menu__separator--right"></div>
+          <MenuItems
+            items={[
+              { icon: '/img/icons/windowsIcons/300(32x32).png', text: 'Control Panel' },
+              { icon: '/img/icons/windowsIcons/227(32x32).png', text: 'Set Program Access and Defaults' },
+              { icon: '/img/icons/windowsIcons/309(16x16).png', text: 'Connect To' },
+              { icon: '/img/icons/explorer-icon-sm.webp', text: getLocalizedTitle('agencyWebsite') },
+            ]}
+          />
+          <div className="menu__separator menu__separator--right"></div>
+          <MenuItems
+            items={[
+              { icon: '/img/icons/notepad/notepad-icon-sm.webp', text: getLocalizedTitle('aboutUs') },
+              { icon: '/img/icons/windowsIcons/301(32x32).png', text: getLocalizedTitle('scheduleMeeting') },
+              { icon: '/img/Whatsapp.svg', text: getLocalizedTitle('chatWithUs') },
             ]}
           />
         </div>
