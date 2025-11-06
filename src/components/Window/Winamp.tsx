@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Webamp from 'webamp';
+import { logger } from '../../utils/logger';
 
 interface WinampProps {
   onClose?: () => void;
@@ -71,17 +72,17 @@ function Winamp({ onClose, onMinimize }: WinampProps) {
   const ref = useRef(null);
   const webamp = useRef(null);
 
-  console.log('🎵 Winamp received props:', {
+  logger.log('🎵 Winamp received props:', {
     onClose: typeof onClose,
     onMinimize: typeof onMinimize
   });
 
   // Ensure callbacks are always functions
   const handleClose = typeof onClose === 'function' ? onClose : () => {
-    console.warn('🎵 No onClose callback provided to Winamp!');
+    logger.warn('🎵 No onClose callback provided to Winamp!');
   };
   const handleMinimize = typeof onMinimize === 'function' ? onMinimize : () => {
-    console.warn('🎵 No onMinimize callback provided to Winamp!');
+    logger.warn('🎵 No onMinimize callback provided to Winamp!');
   };
 
   useEffect(() => {
@@ -90,7 +91,7 @@ function Winamp({ onClose, onMinimize }: WinampProps) {
       return;
     }
 
-    console.log('🎵 Winamp mounting, creating new Webamp instance');
+    logger.log('🎵 Winamp mounting, creating new Webamp instance');
 
     webamp.current = new Webamp({
       initialTracks,
@@ -102,13 +103,13 @@ function Winamp({ onClose, onMinimize }: WinampProps) {
       }
     });
     return () => {
-      console.log('🎵 Winamp unmounting, disposing Webamp instance');
+      logger.log('🎵 Winamp unmounting, disposing Webamp instance');
       if (webamp.current) {
         try {
           // Try to dispose, but don't let it crash the app
           webamp.current.dispose();
         } catch (error) {
-          console.warn('Webamp disposal failed (this is usually safe during logout):', error);
+          logger.warn('Webamp disposal failed (this is usually safe during logout):', error);
         }
         webamp.current = null;
       }
@@ -117,13 +118,13 @@ function Winamp({ onClose, onMinimize }: WinampProps) {
 
   useEffect(() => {
     if (webamp.current) {
-      console.log('🎵 Setting Webamp callbacks');
+      logger.log('🎵 Setting Webamp callbacks');
       webamp.current.onClose(() => {
-        console.log('🎵 Webamp close button clicked!');
+        logger.log('🎵 Webamp close button clicked!');
         handleClose();
       });
       webamp.current.onMinimize(() => {
-        console.log('🎵 Webamp minimize button clicked!');
+        logger.log('🎵 Webamp minimize button clicked!');
         handleMinimize();
       });
     }

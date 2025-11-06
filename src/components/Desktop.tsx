@@ -4,6 +4,7 @@ import NotificationModal from './NotificationModal';
 import useWindows from '../hooks/useWindows';
 import useVolume from '../hooks/useVolume';
 import { useLanguage } from '../hooks/useLanguage';
+import { logger } from '../utils/logger';
 
 import Taskbar from './Taskbar';
 import DesktopAppsLayout from '../layouts/DesktopAppsLayout';
@@ -585,9 +586,9 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
     try {
       const audio = new Audio('/sounds/start-windows.mp3');
       audio.volume = 0.3;
-      audio.play().catch(e => console.log('Startup sound failed:', e));
+      audio.play().catch(e => logger.log('Startup sound failed:', e));
     } catch (e) {
-      console.log('Audio not supported');
+      logger.log('Audio not supported');
     }
     unmuteAudio();
 
@@ -618,20 +619,20 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
   const openWindow = useCallback((windowId: string) => {
     // Prevent duplicate opens
     if (openingRef.current.has(windowId)) {
-      console.log('🎵 Window is already being opened, ignoring duplicate call:', windowId);
+      logger.log('🎵 Window is already being opened, ignoring duplicate call:', windowId);
       return;
     }
     openingRef.current.add(windowId);
 
-    console.log('openWindow called with ID:', windowId);
-    console.log('Current entities:', entities.map(e => ({ id: e.id, component: e.component })));
+    logger.log('openWindow called with ID:', windowId);
+    logger.log('Current entities:', entities.map(e => ({ id: e.id, component: e.component })));
 
     setWindows(prevWindows => {
-      console.log('🎵 Current windows in state:', prevWindows.map(w => ({ id: w.id, component: w.component })));
+      logger.log('🎵 Current windows in state:', prevWindows.map(w => ({ id: w.id, component: w.component })));
       const existingWindow = prevWindows.find(window => window.id === windowId);
 
       if (existingWindow) {
-        console.log('🎵 Window already exists, bringing to front:', existingWindow.id);
+        logger.log('🎵 Window already exists, bringing to front:', existingWindow.id);
           const newZIndex = highestZIndex + 1;
         setHighestZIndex(newZIndex);
 
@@ -646,15 +647,15 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
         );
       }
 
-      console.log('🎵 No existing window found, creating new one');
+      logger.log('🎵 No existing window found, creating new one');
 
       const entity = entities.find(e => e.id === windowId);
       if (!entity) {
-        console.warn('Entity not found for ID:', windowId);
+        logger.warn('Entity not found for ID:', windowId);
         return prevWindows;
       }
 
-      console.log('Creating new window for entity:', entity);
+      logger.log('Creating new window for entity:', entity);
 
       // Calculate new z-index - ComposeEmail should always be on top
       const maxCurrentZIndex = Math.max(...prevWindows.map(w => w.zIndex || 0), highestZIndex);
@@ -664,7 +665,7 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
       const componentName = entity.component as keyof typeof components;
       const ComponentToRender = components[componentName];
 
-      console.log('Component name:', componentName, 'Component found:', !!ComponentToRender);
+      logger.log('Component name:', componentName, 'Component found:', !!ComponentToRender);
 
       const newWindow: WindowEntity = {
         ...entity,
@@ -689,7 +690,7 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
         ...(entity.headerToolsId && { headerToolsId: entity.headerToolsId })
       };
 
-      console.log('Created window:', newWindow);
+      logger.log('Created window:', newWindow);
 
       addWindow(windowId);
 
@@ -705,16 +706,16 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
   }, [entities, highestZIndex, addWindow]);
 
   const closeWindow = useCallback((windowId: string) => {
-    console.log('🎵 Closing window:', windowId);
+    logger.log('🎵 Closing window:', windowId);
 
     // Clear from opening ref if it exists
     openingRef.current.delete(windowId);
 
     setWindows(prevWindows => {
       const windowToClose = prevWindows.find(w => w.id === windowId);
-      console.log('🎵 Window to close:', windowToClose);
+      logger.log('🎵 Window to close:', windowToClose);
       const newWindows = prevWindows.filter(window => window.id !== windowId);
-      console.log('🎵 Windows after close:', newWindows.map(w => w.id));
+      logger.log('🎵 Windows after close:', newWindows.map(w => w.id));
       removeWindow(windowId);
       return newWindows;
     });
@@ -739,8 +740,8 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
   }, [activeWindow]);
 
   const handleWindowClick = useCallback((windowId: string) => {
-    console.log('🎯 handleWindowClick called with windowId:', windowId);
-    console.log('🎯 Current activeWindow:', activeWindow);
+    logger.log('🎯 handleWindowClick called with windowId:', windowId);
+    logger.log('🎯 Current activeWindow:', activeWindow);
 
     if (activeWindow !== windowId) {
       const newZIndex = highestZIndex + 1;
@@ -756,7 +757,7 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
 
       // Only set the active window when it's different
       setActiveWindow(windowId);
-      console.log('🎯 Setting activeWindow to:', windowId);
+      logger.log('🎯 Setting activeWindow to:', windowId);
     }
   }, [highestZIndex, activeWindow]);
 
@@ -787,26 +788,26 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
   }, [contextMenu]);
 
   const handleEntityAction = useCallback((action: string, ...args: any[]) => {
-    console.log('handleEntityAction called with:', action, args);
+    logger.log('handleEntityAction called with:', action, args);
     switch (action) {
       case 'openWindow':
-        console.log('Opening window:', args[0]);
+        logger.log('Opening window:', args[0]);
         openWindow(args[0]);
         break;
       case 'toggleHeader':
         toggleHeader();
         break;
       default:
-        console.warn(`Unknown action: ${action}`);
+        logger.warn(`Unknown action: ${action}`);
     }
   }, [openWindow, toggleHeader]);
 
   const renderWindowComponent = useCallback((componentName: string) => {
-    console.log('🎵 Rendering component:', componentName, 'Available components:', Object.keys(components));
+    logger.log('🎵 Rendering component:', componentName, 'Available components:', Object.keys(components));
     const ComponentToRender = components[componentName as keyof typeof components];
 
     if (!ComponentToRender) {
-      console.warn(`Component "${componentName}" not found in components mapping`);
+      logger.warn(`Component "${componentName}" not found in components mapping`);
       return () => <div className="p-4 text-red-500">Component not found: {componentName}</div>;
     }
 
@@ -875,20 +876,20 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
           zIndex: w.zIndex || 1
         }))}
         onFocusApp={(appId) => {
-          console.log('🔥 onFocusApp called with appId:', appId);
-          console.log('🔥 Current activeWindow:', activeWindow);
-          console.log('🔥 Available windows:', windows.map(w => ({ id: w.id, visible: w.visible })));
+          logger.log('🔥 onFocusApp called with appId:', appId);
+          logger.log('🔥 Current activeWindow:', activeWindow);
+          logger.log('🔥 Available windows:', windows.map(w => ({ id: w.id, visible: w.visible })));
 
           const window = windows.find(w => w.id === appId);
-          console.log('🔥 Found window:', window ? { id: window.id, visible: window.visible } : 'NOT FOUND');
+          logger.log('🔥 Found window:', window ? { id: window.id, visible: window.visible } : 'NOT FOUND');
 
           if (window) {
-            console.log('🔥 Window state check:');
-            console.log('  - window.visible:', window.visible);
-            console.log('  - window.id:', window.id);
+            logger.log('🔥 Window state check:');
+            logger.log('  - window.visible:', window.visible);
+            logger.log('  - window.id:', window.id);
 
             if (!window.visible) {
-              console.log('🔥 RESTORING minimized window:', window.id);
+              logger.log('🔥 RESTORING minimized window:', window.id);
               // Restore minimized window
               setWindows(prevWindows =>
                 prevWindows.map(w =>
@@ -898,7 +899,7 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
               // Focus the window
               handleWindowClick(window.id);
             } else {
-              console.log('🔥 MINIMIZING visible window:', window.id);
+              logger.log('🔥 MINIMIZING visible window:', window.id);
               // If window is visible, minimize it (authentic Windows XP behavior)
               setWindows(prevWindows =>
                 prevWindows.map(w =>
@@ -913,11 +914,11 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
         onToggleStartMenu={toggleHeader}
         startMenuOpen={showHeader}
         onStartMenuItemClick={(entityId) => {
-          console.log('🎯 Desktop received entityId from start menu:', entityId);
+          logger.log('🎯 Desktop received entityId from start menu:', entityId);
           if (entityId) {
             openWindow(entityId);
           } else {
-            console.warn('🎯 Desktop: No entityId provided');
+            logger.warn('🎯 Desktop: No entityId provided');
           }
         }}
         currentUser="CodePoets Team"
@@ -943,7 +944,7 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
             iconId={contextMenu.iconId}
             onClose={() => setContextMenu(null)}
             onRefresh={() => {
-              console.log('Refresh desktop');
+              logger.log('Refresh desktop');
             }}
           />
         </div>

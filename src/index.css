@@ -122,6 +122,19 @@ body {
   );
 }
 
+.hover\:bg-color-login-blue:hover {
+  background: linear-gradient(
+    90deg,
+    #1442a7 0%,
+    rgba(20, 66, 167, 0.56) 60.16%,
+    rgba(20, 66, 167, 0) 99.33%
+  );
+}
+
+.hover\:stroke-white-1:hover {
+  border: 1px solid #fefefe;
+}
+
 /* Gradients */
 .radial-gradient-loading {
   background:

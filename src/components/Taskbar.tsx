@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { useLanguage } from '../hooks/useLanguage';
 import StartMenu from './StartMenu/StartMenu';
+import { logger } from '../utils/logger';
 
 interface App {
   id: string;
@@ -113,7 +114,7 @@ const Taskbar: React.FC<TaskbarProps> = ({
   };
 
   const handleStartMenuClick = (item: string) => {
-    console.log('🔥 Start menu clicked:', item);
+    logger.log('🔥 Start menu clicked:', item);
 
     const itemMap: Record<string, string> = {
       'Our Computer': 'ourComputer',
@@ -146,14 +147,14 @@ const Taskbar: React.FC<TaskbarProps> = ({
     }
 
     const entityId = itemMap[item];
-    console.log('🔥 Mapped to entityId:', entityId);
+    logger.log('🔥 Mapped to entityId:', entityId);
 
     if (entityId) {
       onStartMenuItemClick(entityId);
       // Close start menu after clicking
       onToggleStartMenu();
     } else {
-      console.warn('🔥 No mapping found for item:', item);
+      logger.warn('🔥 No mapping found for item:', item);
     }
   };
 
@@ -165,7 +166,7 @@ const Taskbar: React.FC<TaskbarProps> = ({
           src="/img/icons/start-icon.png"
           alt="Start"
           className={clsx(
-            "h-full mr-2 cursor-pointer relative",
+            "h-full min-w-[54px] md:min-w-0 mr-2 cursor-pointer relative",
             startMenuOpen ? "brightness-85" : "hover:brightness-105 active:brightness-85"
           )}
           onClick={onToggleStartMenu}

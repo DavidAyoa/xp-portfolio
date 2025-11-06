@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { logger } from '../utils/logger';
 
 const VOLUME_STORAGE_KEY = 'volume';
 
@@ -34,13 +35,13 @@ export const useVolume = () => {
   const playAudio = (audioFile: string) => {
     if (audioElements.current[audioFile]) {
       audioElements.current[audioFile].play().catch((error: Error) => {
-        console.log('Autoplay prevented:', error);
+        logger.log('Autoplay prevented:', error);
       });
     } else {
       const audio = new Audio(audioFile);
       audio.volume = volume;
       audio.play().catch((error: Error) => {
-        console.log('Autoplay prevented:', error);
+        logger.log('Autoplay prevented:', error);
       });
       audioElements.current[audioFile] = audio;
     }

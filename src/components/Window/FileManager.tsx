@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { WindowDropDowns } from './WindowDropDowns';
+import { logger } from '../../utils/logger';
 
 // Asset imports (using public folder paths for now)
 const assets = {
@@ -80,7 +81,7 @@ interface FileManagerProps {
 }
 
 function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
-  console.log('🗂️ FileManager rendering with type:', type);
+  logger.log('🗂️ FileManager rendering with type:', type);
   const [currentView, setCurrentView] = useState<string>(type);
   const [history, setHistory] = useState<string[]>([type]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);

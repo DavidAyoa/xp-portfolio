@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { logger } from '../utils/logger';
 
 interface Icon {
   id: string;
@@ -51,13 +52,13 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     // Simple event handlers like winXP-example - NO preventDefault on mouseDown
     const handleMouseDown = (e: React.MouseEvent) => {
       e.stopPropagation();
-      console.log('🎯 ICON MOUSE DOWN:', icon.id);
+      logger.log('🎯 ICON MOUSE DOWN:', icon.id);
       onFocus(icon.id);
     };
 
     const handleDoubleClick = (e: React.MouseEvent) => {
       e.stopPropagation();
-      console.log('🎯 DOUBLE CLICK:', icon.component);
+      logger.log('🎯 DOUBLE CLICK:', icon.component);
       onDoubleClick(icon.component);
     };
 
@@ -65,7 +66,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
       e.preventDefault();
       e.stopPropagation();
       if (onIconContextMenu) {
-        console.log('📋 CONTEXT MENU:', icon.id);
+        logger.log('📋 CONTEXT MENU:', icon.id);
         onIconContextMenu(icon.id, e.clientX, e.clientY);
       }
     };

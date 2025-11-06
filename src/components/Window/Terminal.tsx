@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
+import { logger } from '../../utils/logger';
 
 interface TerminalProps {
   onClose?: () => void;
@@ -74,7 +75,7 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
       const data = await response.json();
       return data.choices[0]?.message?.content || 'No response from AI.';
     } catch (error) {
-      console.error('OpenAI API error:', error);
+      logger.error('OpenAI API error:', error);
       return `Error communicating with AI: ${error instanceof Error ? error.message : 'Unknown error'}`;
     }
   };

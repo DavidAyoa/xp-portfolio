@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { WindowDropDowns } from './WindowDropDowns';
+import { logger } from '../../utils/logger';
 
 interface InternetExplorerProps {
   onClose?: () => void;
@@ -450,7 +451,7 @@ const InternetExplorer: React.FC<InternetExplorerProps> = ({ onClose, initialUrl
             className="w-full h-full border-none absolute top-0 left-0"
             title="Internet Explorer"
             onError={() => {
-              console.log('Archive failed to load, falling back to codepoets.digital');
+              logger.log('Archive failed to load, falling back to codepoets.digital');
               setLoadError(true);
             }}
           />

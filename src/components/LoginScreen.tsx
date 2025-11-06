@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { logger } from '../utils/logger';
 
 interface LoginScreenProps {
   onLogin: (username: string) => void;
@@ -148,7 +149,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
       {/* Footer */}
       <div className="pb-8 flex justify-between items-center px-8">
         <button
-          onClick={() => console.log('Turn off computer')}
+          onClick={() => logger.log('Turn off computer')}
           className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded border border-red-500 transition-colors duration-200 flex items-center gap-2"
         >
           <span className="text-sm">🔌</span>

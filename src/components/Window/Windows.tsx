@@ -139,8 +139,15 @@ const Window = memo(function Window({
     resizeThreshold: 10,
   });
 
+  const isMobile = windowWidth < 768;
+
   let width: number | string, height: number | string, x: number, y: number;
-  if (maximized) {
+  if (isMobile) {
+    width = windowWidth;
+    height = windowHeight - 31;
+    x = 0;
+    y = 0;
+  } else if (maximized) {
     width = windowWidth + 6;
     height = windowHeight - 24;
     x = -3;
