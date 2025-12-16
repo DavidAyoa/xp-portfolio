@@ -169,6 +169,16 @@ const Notepad: React.FC<NotepadProps> = ({ onClose, initialText = '', startInMar
                   const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                   return <h6 id={id}>{children}</h6>;
                 },
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#0066cc', textDecoration: 'underline' }}
+                  >
+                    {children}
+                  </a>
+                ),
               }}
             >
               {docText}

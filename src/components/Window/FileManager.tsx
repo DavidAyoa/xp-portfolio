@@ -77,7 +77,7 @@ const dropDownData = {
 
 interface FileManagerProps {
   onClose?: () => void;
-  type?: 'computer' | 'projects' | 'clients' | 'ourDocuments' | 'ourTeam' | 'aboutUsPictures' | 'ourPictures' | 'portfolio' | 'portfolioWebsite' | 'portfolioBranding' | 'portfolioTech' | 'portfolioMarketing' | 'makeADifference' | 'mudNMoon' | 'copperwell' | 'bolt';
+  type?: 'computer' | 'projects' | 'clients' | 'ourDocuments' | 'ourTeam' | 'aboutUsPictures' | 'ourPictures' | 'portfolio' | 'portfolioWebsite' | 'portfolioBranding' | 'portfolioTech' | 'portfolioMarketing' | 'makeADifference' | 'mudNMoon' | 'copperwell' | 'bolt' | 'clientStartups' | 'clientImpact' | 'clientRetail' | 'clientHealthcare' | 'clientArchitecture' | 'clientEducation' | 'clientHoreca' | 'clientCorporate' | 'clientRealEstate' | 'clientMedia' | 'clientTechnology' | 'clientAgencies';
 }
 
 function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
@@ -105,6 +105,21 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
   const isMudNMoon = currentView === 'mudNMoon';
   const isCopperwell = currentView === 'copperwell';
   const isBolt = currentView === 'bolt';
+
+  // Client category views
+  const isClientStartups = currentView === 'clientStartups';
+  const isClientImpact = currentView === 'clientImpact';
+  const isClientRetail = currentView === 'clientRetail';
+  const isClientHealthcare = currentView === 'clientHealthcare';
+  const isClientArchitecture = currentView === 'clientArchitecture';
+  const isClientEducation = currentView === 'clientEducation';
+  const isClientHoreca = currentView === 'clientHoreca';
+  const isClientCorporate = currentView === 'clientCorporate';
+  const isClientRealEstate = currentView === 'clientRealEstate';
+  const isClientMedia = currentView === 'clientMedia';
+  const isClientTechnology = currentView === 'clientTechnology';
+  const isClientAgencies = currentView === 'clientAgencies';
+  const isAnyClientCategory = isClientStartups || isClientImpact || isClientRetail || isClientHealthcare || isClientArchitecture || isClientEducation || isClientHoreca || isClientCorporate || isClientRealEstate || isClientMedia || isClientTechnology || isClientAgencies;
 
   const canGoBack = historyIndex > 0;
   const canGoForward = historyIndex < history.length - 1;
@@ -136,7 +151,7 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
   // Image viewer handlers
   const openImageViewer = (index: number) => {
     setSelectedImageIndex(index);
-    // Open in carousel mode for ourPictures, scroll mode for others
+    // Open in carousel mode for ourPictures, scroll mode for branding and others
     const initialMode = isOurPictures ? 'carousel' : 'scroll';
     setViewerMode(initialMode);
 
@@ -207,16 +222,40 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
 
   // Our Pictures
   const ourPictures = [
-    { name: 'c1', src: '/pictures/our_pictures/c1.jpg' },
-    { name: 'c2', src: '/pictures/our_pictures/c2.jpg' },
-    { name: 'c3', src: '/pictures/our_pictures/c3.jpg' },
-    { name: 'c4', src: '/pictures/our_pictures/c4.jpg' },
-    { name: 'c5', src: '/pictures/our_pictures/c5.jpg' },
-    { name: 'c6', src: '/pictures/our_pictures/c6.jpg' },
+    { name: 'Office 1', src: '/our_pictures/office0.jpg' },
+    { name: 'Office 2', src: '/our_pictures/office1.jpg' },
+    { name: 'Office 3', src: '/our_pictures/office2.jpg' },
+    { name: 'Office 4', src: '/our_pictures/office3.jpg' },
+    { name: 'Office 5', src: '/our_pictures/office4.jpg' },
+    { name: 'Office 6', src: '/our_pictures/office5.jpg' },
+    { name: 'Office 7', src: '/our_pictures/office6.jpg' },
+    { name: 'Our Team 1', src: '/our_pictures/ourteam1.jpg' },
+    { name: 'Our Team 2', src: '/our_pictures/ourteam2.jpg' },
+    { name: 'Our Team 3', src: '/our_pictures/ourteam3.jpg' },
   ];
 
+  // Branding project images
+  const boltImages = Array.from({ length: 16 }, (_, i) => ({
+    name: `Bolt ${i + 1}`,
+    src: `/branding/Bolt/Bolt${i + 1}.png`
+  }));
+
+  const copperwellImages = Array.from({ length: 27 }, (_, i) => ({
+    name: `Copperwell ${i + 1}`,
+    src: `/branding/Copperwell/Copperwell${i + 1}.png`
+  }));
+
+  const mudNMoonImages = Array.from({ length: 32 }, (_, i) => ({
+    name: `Mud N Moon ${i + 1}`,
+    src: `/branding/Mud N Moon/mudandmoon${i + 1}.webp`
+  }));
+
   // Current pictures based on view type
-  const currentPictures = isOurPictures ? ourPictures : aboutUsPictures;
+  const currentPictures = isOurPictures ? ourPictures
+    : isBolt ? boltImages
+    : isCopperwell ? copperwellImages
+    : isMudNMoon ? mudNMoonImages
+    : aboutUsPictures;
 
   // Our Documents content (PDF files) - was sharedDocuments
   const ourDocumentsData = [
@@ -225,13 +264,80 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
     { name: 'Website Design Questionnaire - 2025.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_documents/Website Design Questionnaire - 2025.pdf' },
   ];
 
-  // Our Team content (team member files) - was userDocuments
+  // Our Team content - team members with photos and LinkedIn
   const ourTeamData = [
-    { name: 'CEO Profile.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/CEO Profile.pdf' },
-    { name: 'CTO Profile.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/CTO Profile.pdf' },
-    { name: 'Team Organigram.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/Team Organigram.pdf' },
-    { name: 'Join Us.pdf', icon: '/img/icons/documents/pdf-icon.png', url: '/documents/our_team/Join Us.pdf' },
+    { name: 'Himanshu Desai', role: 'CEO', photo: '/our_team/Himanshu Desai Profile Picture.jpg', linkedin: 'https://www.linkedin.com/in/himanshubdesai/' },
+    { name: 'Jinal Shah', role: 'COO', photo: '/our_team/Jinal Desai.jpg', linkedin: 'https://www.linkedin.com/in/studiopastels/' },
+    { name: 'Naaz Mistry', role: 'Operations', photo: '/our_team/Naaz Mistry.png', linkedin: 'https://www.linkedin.com/in/naaz-mistry/' },
+    { name: 'Prachi Pandey', role: 'Operations', photo: '/our_team/Prachi Pandey.jpg', linkedin: 'https://www.linkedin.com/in/prachi-pandey-27086a273/' },
+    { name: 'David Ajibade', role: 'Full Stack', photo: '/our_team/David Ajibade.jpg', linkedin: 'https://www.linkedin.com/in/dayv/' },
+    { name: 'Rajkeshar Yadav', role: 'Full Stack', photo: '/our_team/Rajkeshar Yadav.jpg', linkedin: 'https://www.linkedin.com/in/reach2rajkeshar' },
+    { name: 'Darshan Zadafiya', role: 'Web', photo: '/our_team/Darshan Zadafiya.png', linkedin: 'https://www.linkedin.com/in/darshan-zadafiya-671896203' },
+    { name: 'Matthew Ajibade', role: 'Web', photo: '/our_team/MATTHEW AJIBADE.jpg', linkedin: 'https://www.linkedin.com/in/ajitech/' },
+    { name: 'Vikram Kunvar', role: 'Web', photo: '/our_team/Vikram Kunvar.jpg', linkedin: 'https://www.linkedin.com/in/vikram-kunvar/' },
+    { name: 'Uttam Pokar', role: 'Design', photo: '/our_team/Uttam Pokar.jpg', linkedin: 'https://www.linkedin.com/in/mr-uttam-patel/' },
+    { name: 'Moshood Salaudeen', role: 'Design', photo: '/our_team/Moshood Salaudeen.jpg', linkedin: 'https://www.linkedin.com/in/moshood-olawale-salaudeen-015714106/' },
+    { name: 'Agam Shah', role: 'Media', photo: '/our_team/Agam Shah.jpg', linkedin: 'https://www.linkedin.com/in/agam-shah-629279129/' },
+    { name: 'Kashyap Patel', role: 'Media', photo: '/our_team/Kashyap Patel.jpg', linkedin: 'https://www.linkedin.com/in/patel-kashyap-9a0a8811a/' },
+    { name: 'Hiral Desai', role: 'Digital Marketing', photo: '/our_team/Hiral Desai.jpg', linkedin: 'https://www.linkedin.com/in/hiral-desai-079767100/' },
   ];
+
+  // Client categories with their logos
+  const clientCategories = [
+    { id: 'clientStartups', name: 'Startups', icon: assets.folder },
+    { id: 'clientImpact', name: 'Impact', icon: assets.folder },
+    { id: 'clientRetail', name: 'Retail', icon: assets.folder },
+    { id: 'clientHealthcare', name: 'Healthcare', icon: assets.folder },
+    { id: 'clientArchitecture', name: 'Architecture', icon: assets.folder },
+    { id: 'clientEducation', name: 'Education', icon: assets.folder },
+    { id: 'clientHoreca', name: 'Horeca', icon: assets.folder },
+    { id: 'clientCorporate', name: 'Corporate', icon: assets.folder },
+    { id: 'clientRealEstate', name: 'Real Estate', icon: assets.folder },
+    { id: 'clientMedia', name: 'Media', icon: assets.folder },
+    { id: 'clientTechnology', name: 'Technology', icon: assets.folder },
+    { id: 'clientAgencies', name: 'Agencies', icon: assets.folder },
+  ];
+
+  const clientLogos: Record<string, string[]> = {
+    clientStartups: Array.from({ length: 6 }, (_, i) => `/clients/1. Startups/Use this folder/Startup ${i + 1}.png`),
+    clientImpact: Array.from({ length: 15 }, (_, i) => `/clients/2. Impact/Startups (1)/Impact ${i + 1}.png`),
+    clientRetail: Array.from({ length: 5 }, (_, i) => `/clients/3. Retail/Startups (2)/Reatil ${i + 1}.png`),
+    clientHealthcare: Array.from({ length: 9 }, (_, i) => `/clients/4. Healthcare/Startups (3)/Healthcare ${i + 1}.png`),
+    clientArchitecture: Array.from({ length: 4 }, (_, i) => `/clients/5. Architecture/Startups (4)/Architecture ${i + 1}.png`),
+    clientEducation: Array.from({ length: 5 }, (_, i) => `/clients/6. Education/Startups (5)/Education ${i + 1}.png`),
+    clientHoreca: Array.from({ length: 4 }, (_, i) => `/clients/7. Horeca/Startups (6)/Horeca ${i + 1}.png`),
+    clientCorporate: Array.from({ length: 6 }, (_, i) => `/clients/8. Corporate/Startups (7)/Corporate  ${i + 1}.png`),
+    clientRealEstate: Array.from({ length: 5 }, (_, i) => `/clients/9. Real Estate/Startups (8)/Real Estate ${i + 1}.png`),
+    clientMedia: Array.from({ length: 3 }, (_, i) => `/clients/10. Media/Startups (9)/Media ${i + 1}.png`),
+    clientTechnology: ['/clients/11. Technology/Technology 1.png'],
+    clientAgencies: Array.from({ length: 5 }, (_, i) => `/clients/12. Agencies/Startups (10)/Agencies ${i + 1}.png`),
+  };
+
+  // Website portfolio projects
+  const websiteProjects = [
+    { name: 'Apollo', category: 'Startups', image: '/websites/website1.png', url: 'https://apollo-management-stg.webflow.io/' },
+    { name: 'Design Shack', category: 'Agency', image: '/websites/website2.svg', url: 'https://design-shack.webflow.io/' },
+    { name: 'Disrptve', category: 'Agency', image: '/websites/website3.png', url: 'https://www.disrptve.com/' },
+    { name: 'Make a Diff', category: 'Impact', image: '/websites/website4.png', url: 'https://makeadiff.in' },
+    { name: 'Craftroots', category: 'Retail', image: '/websites/website5.webp', url: 'https://craftroots.com/' },
+    { name: 'Studio Pastels', category: 'Interior', image: '/websites/website6.png', url: 'https://studiopastels.com/' },
+    { name: 'Ingrazia', category: 'Interior', image: '/websites/website7.png', url: 'https://studioingrazia.com/home/' },
+    { name: 'SchoolExl', category: 'Education', image: '/websites/website8.png', url: 'https://schoolexl.com/' },
+    { name: 'Dalhousie Public School', category: 'Education', image: '/websites/Website9.svg', url: 'https://dalhousiepublicschool.com/' },
+    { name: "Radhika's", category: 'Horeca', image: '/websites/Website10.png', url: 'https://radhikas.in/' },
+    { name: 'G2 Electric', category: 'Corporate', image: '/websites/website11.webp', url: 'https://g2india.com/' },
+    { name: 'String Ag', category: 'Corporate', image: '/websites/Website12.png', url: 'https://ag.stringbio.com/' },
+    { name: 'Daimi Properties', category: 'Real Estate', image: '/websites/Website13.png', url: 'http://daimiproperties.com/' },
+    { name: 'Housivity', category: 'Real Estate', image: '/websites/Website14.png', url: 'https://housivity.com' },
+    { name: 'Sanjukta Sinha Dance Company', category: 'Media', image: '/websites/Website15.webp', url: 'https://sanjuktasinhadancecompany.com/' },
+    { name: 'Shivdutt Das Art Foundation', category: 'Media', image: '/websites/Website16.png', url: 'https://www.sdaf.in/' },
+    { name: 'Robocup', category: 'Technology', image: '/websites/Website17.avif', url: 'https://robocup.fun/' },
+  ];
+
+  const getClientCategoryName = (view: string): string => {
+    const category = clientCategories.find(c => c.id === view);
+    return category?.name || '';
+  };
 
   function onClickOptionItem(item: string) {
     switch (item) {
@@ -332,7 +438,7 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
       <section className="flex-shrink-0 border-t border-white/70 h-5 text-[11px] flex items-center px-[2px] shadow-[inset_0_-2px_3px_-1px_#b0b0b0]">
         <div className="text-black/50 px-[5px] leading-[100%]">Address</div>
         <div className="border border-[rgba(122,122,255,0.6)] h-full flex flex-1 items-center bg-white relative">
-          <img className="w-[14px] h-[14px]" src={isAboutUsPictures || isOurPictures || isOurDocuments || isOurTeam || isPortfolio || isPortfolioWebsite || isPortfolioBranding || isPortfolioTech || isPortfolioMarketing || isMakeADifference || isMudNMoon || isCopperwell || isBolt ? assets.folder : isClients ? assets.cd : isProjects ? assets.folder : assets.computer} alt="folder" />
+          <img className="w-[14px] h-[14px]" src={isAboutUsPictures || isOurPictures || isOurDocuments || isOurTeam || isPortfolio || isPortfolioWebsite || isPortfolioBranding || isPortfolioTech || isPortfolioMarketing || isMakeADifference || isMudNMoon || isCopperwell || isBolt || isAnyClientCategory ? assets.folder : isClients ? assets.cd : isProjects ? assets.folder : assets.computer} alt="folder" />
           <div className="whitespace-nowrap absolute left-4 right-[17px] overflow-hidden text-ellipsis">
             {isAboutUsPictures
               ? 'My Computer > Our Documents > Information About Us'
@@ -344,6 +450,8 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
               ? 'My Computer > Our Team'
               : isClients
               ? 'My Computer > Clients (C:)'
+              : isAnyClientCategory
+              ? `My Computer > Clients (C:) > ${getClientCategoryName(currentView)}`
               : isProjects
               ? 'My Computer > Our Work'
               : isPortfolio
@@ -436,17 +544,6 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                   </a>
                 </div>
                 <div className="flex mb-[2px]">
-                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/united-states.png" alt="USA" />
-                  <a
-                    href="https://codepoets.digital/usaoffice"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
-                  >
-                    Los Angeles
-                  </a>
-                </div>
-                <div className="flex mb-[2px]">
                   <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/united-arab-emirates.png" alt="UAE" />
                   <a
                     href="https://codepoets.digital/uaeoffice"
@@ -455,6 +552,18 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                     className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
                   >
                     Dubai
+                  </a>
+                </div>
+                {/* Commented out - to be added later
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/flags/united-states.png" alt="USA" />
+                  <a
+                    href="https://codepoets.digital/usaoffice"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    Los Angeles
                   </a>
                 </div>
                 <div className="flex mb-[2px]">
@@ -490,6 +599,50 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                     Nairobi
                   </a>
                 </div>
+                */}
+              </div>
+            </div>
+
+            {/* Other Ventures Card */}
+            <div className="rounded-t-[3px] w-full overflow-hidden mb-3">
+              <div className="flex items-center h-[23px] pl-[11px] pr-[2px] cursor-pointer bg-gradient-to-r from-[rgb(240,240,255)] via-[rgb(240,240,255)] to-[rgb(168,188,255)]">
+                <div className="font-bold text-[#0c327d] flex-1 text-[11px]">Other Ventures</div>
+                <img className="w-[18px] h-[18px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.3)]" src={assets.pullup} alt="pullup" />
+              </div>
+              <div className="px-[10px] py-[5px] bg-gradient-to-r from-[rgb(180,200,251)] via-[rgb(164,185,251)] to-[rgb(180,200,251)] bg-[rgba(198,211,255,0.87)]">
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/img/icons/windowsIcons/549(32x32).png" alt="OfficiallyYours" />
+                  <a
+                    href="https://officiallyours.co.in"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    OfficiallyYours
+                  </a>
+                </div>
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/img/icons/windowsIcons/747(32x32).png" alt="Age of AI" />
+                  <a
+                    href="https://ageofai.digital"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    Age of AI
+                  </a>
+                </div>
+                <div className="flex mb-[2px]">
+                  <img className="w-[14px] h-[14px] mr-[5px]" src="/img/icons/windowsIcons/743(32x32).png" alt="SchoolExl" />
+                  <a
+                    href="https://schoolexl.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[10px] leading-[14px] text-[#0c327d] hover:cursor-pointer hover:text-[#2b72ff] hover:underline"
+                  >
+                    SchoolExl
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -501,7 +654,7 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
               /* About Us Pictures View */
               <div className="p-4">
                 <div className="flex flex-wrap gap-3">
-                  {(isOurPictures ? ourPictures : aboutUsPictures).map((image, index) => (
+                  {currentPictures.map((image, index) => (
                     <div
                       key={index}
                       className="flex flex-col items-center cursor-pointer p-2 hover:bg-[#e6f3ff] border border-transparent hover:border-[#99ccff] rounded"
@@ -577,49 +730,72 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                 </div>
               </div>
             ) : isOurTeam ? (
-              /* Our Team View - Team member files (was User Documents) */
+              /* Our Team View - Team members with photos and LinkedIn */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
                   Our Team
                 </div>
-                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  {ourTeamData.map((doc, index) => (
+                <div className="flex items-start px-[15px] pt-[15px] flex-wrap gap-4">
+                  {ourTeamData.map((member, index) => (
                     <div
                       key={index}
-                      className="flex flex-col items-center w-[120px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-2 rounded group"
-                      onDoubleClick={() => window.open(doc.url, '_blank')}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        const link = document.createElement('a');
-                        link.href = doc.url;
-                        link.download = doc.name;
-                        link.click();
-                      }}
+                      className="flex flex-col items-center w-[100px] mb-[10px] h-auto p-2 rounded group"
                     >
-                      <img className="w-[48px] h-[48px] mb-1" src={doc.icon} alt="pdf" />
-                      <div className="text-xs text-center break-words w-full">{doc.name}</div>
-                      <div className="text-[10px] text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        Double-click to open
-                      </div>
+                      <img
+                        className="w-[64px] h-[64px] mb-2 rounded-full object-cover border-2 border-gray-200"
+                        src={member.photo}
+                        alt={member.name}
+                      />
+                      <div className="text-xs text-center font-semibold">{member.name}</div>
+                      <div className="text-[10px] text-gray-500 text-center">{member.role}</div>
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[10px] text-[#0066cc] hover:underline mt-1"
+                      >
+                        View
+                      </a>
                     </div>
                   ))}
                 </div>
-                <div className="px-[15px] text-xs text-gray-600 mt-2">
-                  <p>• Double-click to open in new tab</p>
-                  <p>• Right-click to download</p>
-                </div>
               </div>
             ) : isClients ? (
-              /* Clients View */
+              /* Clients View - Category Folders */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
-                  Our Clients
+                  Client Categories
                 </div>
                 <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  {clientFolders.map((client, index) => (
-                    <div key={index} className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded">
-                      <img className="w-[45px] h-[45px] mr-[5px]" src={client.icon} alt="folder" />
-                      <div className="whitespace-nowrap h-full">{client.name}</div>
+                  {clientCategories.map((category) => (
+                    <div
+                      key={category.id}
+                      className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
+                      onDoubleClick={() => navigateTo(category.id)}
+                    >
+                      <img className="w-[45px] h-[45px] mr-[5px]" src={category.icon} alt="folder" />
+                      <div className="whitespace-nowrap h-full">{category.name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : isAnyClientCategory ? (
+              /* Client Category View - Show Logos */
+              <div className="mb-4">
+                <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
+                  {getClientCategoryName(currentView)} Clients
+                </div>
+                <div className="flex items-start px-[15px] pt-[15px] flex-wrap gap-4">
+                  {clientLogos[currentView]?.map((logo, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center justify-center w-[120px] h-[100px] p-2 rounded hover:bg-blue-50"
+                    >
+                      <img
+                        className="max-w-[100px] max-h-[70px] object-contain"
+                        src={logo}
+                        alt={`Client ${index + 1}`}
+                      />
                     </div>
                   ))}
                 </div>
@@ -640,19 +816,40 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                 </div>
               </div>
             ) : isPortfolioWebsite ? (
-              /* Portfolio > Website */
+              /* Portfolio > Website - Website Projects with Thumbnails */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
                   Website Projects
                 </div>
-                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  <div
-                    className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
-                    onDoubleClick={() => navigateTo('makeADifference')}
-                  >
-                    <img className="w-[45px] h-[45px] mr-[5px]" src={assets.folder} alt="folder" />
-                    <div className="whitespace-nowrap h-full">Make a Difference</div>
-                  </div>
+                <div className="flex items-start px-[15px] pt-[15px] flex-wrap gap-4">
+                  {websiteProjects.map((project, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center w-[140px] mb-[10px] p-2 rounded cursor-pointer hover:bg-blue-50 group"
+                      onClick={() => window.open(project.url, '_blank')}
+                    >
+                      <div
+                        className="bg-white border border-gray-300 flex items-center justify-center mb-2 overflow-hidden rounded"
+                        style={{
+                          width: '120px',
+                          height: '80px',
+                          boxShadow: '1px 1px 3px rgba(0,0,0,0.15)'
+                        }}
+                      >
+                        <img
+                          src={project.image}
+                          alt={project.name}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                        />
+                      </div>
+                      <div className="text-xs text-center font-semibold">{project.name}</div>
+                      <div className="text-[10px] text-gray-500 text-center">({project.category})</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : isPortfolioBranding ? (
@@ -696,53 +893,104 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                 </div>
               </div>
             ) : isMudNMoon ? (
-              /* Portfolio > Branding > Mud N Moon - Empty */
+              /* Portfolio > Branding > Mud N Moon - Image Gallery */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
                   Mud N Moon
                 </div>
-                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                <div className="flex flex-wrap gap-3 p-4">
+                  {mudNMoonImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center cursor-pointer p-2 hover:bg-[#e6f3ff] border border-transparent hover:border-[#99ccff] rounded"
+                      style={{ width: '120px' }}
+                      onClick={() => openImageViewer(index)}
+                    >
+                      <div
+                        className="bg-white border border-gray-400 flex items-center justify-center mb-1 overflow-hidden"
+                        style={{ width: '96px', height: '96px', boxShadow: '1px 1px 2px rgba(0,0,0,0.2)' }}
+                      >
+                        <img src={image.src} alt={image.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                      <div className="text-center break-words w-full px-1" style={{ fontSize: '11px', lineHeight: '1.3' }}>
+                        {image.name}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : isCopperwell ? (
-              /* Portfolio > Branding > Copperwell - Empty */
+              /* Portfolio > Branding > Copperwell - Image Gallery */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
                   Copperwell
                 </div>
-                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                <div className="flex flex-wrap gap-3 p-4">
+                  {copperwellImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center cursor-pointer p-2 hover:bg-[#e6f3ff] border border-transparent hover:border-[#99ccff] rounded"
+                      style={{ width: '120px' }}
+                      onClick={() => openImageViewer(index)}
+                    >
+                      <div
+                        className="bg-white border border-gray-400 flex items-center justify-center mb-1 overflow-hidden"
+                        style={{ width: '96px', height: '96px', boxShadow: '1px 1px 2px rgba(0,0,0,0.2)' }}
+                      >
+                        <img src={image.src} alt={image.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                      <div className="text-center break-words w-full px-1" style={{ fontSize: '11px', lineHeight: '1.3' }}>
+                        {image.name}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : isBolt ? (
-              /* Portfolio > Branding > Bolt - Empty */
+              /* Portfolio > Branding > Bolt - Image Gallery */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
                   Bolt
                 </div>
-                <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                <div className="flex flex-wrap gap-3 p-4">
+                  {boltImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center cursor-pointer p-2 hover:bg-[#e6f3ff] border border-transparent hover:border-[#99ccff] rounded"
+                      style={{ width: '120px' }}
+                      onClick={() => openImageViewer(index)}
+                    >
+                      <div
+                        className="bg-white border border-gray-400 flex items-center justify-center mb-1 overflow-hidden"
+                        style={{ width: '96px', height: '96px', boxShadow: '1px 1px 2px rgba(0,0,0,0.2)' }}
+                      >
+                        <img src={image.src} alt={image.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                      <div className="text-center break-words w-full px-1" style={{ fontSize: '11px', lineHeight: '1.3' }}>
+                        {image.name}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : isPortfolioTech ? (
-              /* Portfolio > Tech - Empty */
+              /* Portfolio > Tech */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
                   Tech Projects
                 </div>
                 <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                  <div className="text-sm text-gray-600 px-[15px] italic">This drive is being populated...</div>
                 </div>
               </div>
             ) : isPortfolioMarketing ? (
-              /* Portfolio > Marketing - Empty */
+              /* Portfolio > Marketing */
               <div className="mb-4">
                 <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
                   Marketing Projects
                 </div>
                 <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
-                  <div className="text-xs text-gray-500 px-[15px]">This folder is empty.</div>
+                  <div className="text-sm text-gray-600 px-[15px] italic">This drive is being populated...</div>
                 </div>
               </div>
             ) : (
@@ -785,10 +1033,10 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                     </div>
                     <div
                       className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
-                      onDoubleClick={() => navigateTo('portfolioTech')}
+                      onDoubleClick={() => navigateTo('portfolioBranding')}
                     >
                       <img className="w-[45px] h-[45px] mr-[5px]" src={assets.disk} alt="disk" />
-                      <div className="whitespace-nowrap h-full">T: Tech</div>
+                      <div className="whitespace-nowrap h-full">B: Branding</div>
                     </div>
                     <div
                       className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
@@ -799,18 +1047,18 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
                     </div>
                     <div
                       className="flex items-center w-[200px] mb-[15px] h-auto cursor-pointer hover:bg-blue-50 p-1 rounded"
-                      onDoubleClick={() => navigateTo('portfolioBranding')}
+                      onDoubleClick={() => navigateTo('portfolioTech')}
                     >
                       <img className="w-[45px] h-[45px] mr-[5px]" src={assets.disk} alt="disk" />
-                      <div className="whitespace-nowrap h-full">B: Branding</div>
+                      <div className="whitespace-nowrap h-full">T: Tech</div>
                     </div>
                   </div>
                 </div>
 
-                {/* Devices with Removable Storage */}
+                {/* Clients with Lifelong Collaborations */}
                 <div className="mb-4">
                   <div className="w-[300px] font-bold px-3 py-1 relative after:content-[''] after:block after:bg-gradient-to-r after:from-[#70bfff] after:to-white after:absolute after:bottom-0 after:left-0 after:h-px after:w-full">
-                    Devices with Removable Storage
+                    Clients with Lifelong Collaborations
                   </div>
                   <div className="flex items-center px-[15px] pt-[15px] flex-wrap">
                     <div
@@ -893,7 +1141,7 @@ function FileManager({ onClose, type = 'computer' }: FileManagerProps) {
             /* Scroll Mode - Vertical Stack */
             <div className="w-full h-full overflow-y-auto overflow-x-hidden">
               <div className="flex flex-col items-center gap-0 py-8">
-                {(isOurPictures ? ourPictures : aboutUsPictures).map((image, index) => (
+                {currentPictures.map((image, index) => (
                   <div
                     key={index}
                     id={`scroll-image-${index}`}

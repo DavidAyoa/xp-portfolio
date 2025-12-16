@@ -140,7 +140,7 @@ export const desktopApps: Entity[] = [
       fr: "Qui nous sommes"
     },
     imgSrc: "/img/icons/notepad/notepad-icon-lg.webp",
-    onDesktop: false,
+    onDesktop: true,
     resizable: true,
     windowsHeaderLogo: false,
     isSearchVisible: true,
@@ -263,15 +263,15 @@ export const desktopApps: Entity[] = [
       en: "Photo Gallery",
       fr: "Galerie de photos"
     },
-    imgSrc: "/img/icons/windowsIcons/307(32x32).png",
-    onDesktop: false,
+    imgSrc: "/windowsIcons/289(32x32).png",
+    onDesktop: true,
     resizable: true,
-    windowsHeaderLogo: false,
+    windowsHeaderLogo: true,
     isSearchVisible: true,
     headerPosition: "left",
-    headerToolsId: "",
-    menuHeaderItemsId: "none",
-    iconSrc: "/img/icons/windowsIcons/307(32x32).png",
+    headerToolsId: "default",
+    menuHeaderItemsId: "default",
+    iconSrc: "/img/icons/documents/folder-docs-icon-sm.webp",
     initPositionX: 150,
     initPositionY: 120,
     initWidth: 800,
@@ -295,7 +295,7 @@ export const desktopApps: Entity[] = [
       fr: "Discussion WhatsApp"
     },
     imgSrc: "/img/Whatsapp.svg",
-    onDesktop: false,
+    onDesktop: true,
     resizable: false,
     windowsHeaderLogo: false,
     isSearchVisible: false,
@@ -326,7 +326,7 @@ export const desktopApps: Entity[] = [
       fr: "Voir tous nos projets"
     },
     imgSrc: "/img/icons/documents/folder-docs-icon-lg.webp",
-    onDesktop: true,
+    onDesktop: false,
     resizable: true,
     windowsHeaderLogo: true,
     isSearchVisible: true,
@@ -342,6 +342,37 @@ export const desktopApps: Entity[] = [
     minHeight: 160,
     component: "FileManager",
     leftMenuType: "default"
+  },
+  {
+    id: "ourShowreel",
+    title: {
+      en: "Our Showreel",
+      fr: "Notre Showreel",
+      es: "Nuestro Showreel",
+      hi: "हमारा शोरील",
+      ar: "عرضنا"
+    },
+    subtitle: {
+      en: "Watch our showreel video",
+      fr: "Regardez notre vidéo showreel"
+    },
+    imgSrc: "/windowsIcons/846(32x32).png",
+    onDesktop: true,
+    resizable: true,
+    windowsHeaderLogo: false,
+    isSearchVisible: false,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/windowsIcons/846(32x32).png",
+    initPositionX: 150,
+    initPositionY: 100,
+    initWidth: 800,
+    initHeight: 500,
+    minWidth: 400,
+    minHeight: 300,
+    component: "OurShowreel",
+    leftMenuType: ""
   },
   {
     id: "music",
@@ -586,5 +617,98 @@ export const desktopApps: Entity[] = [
     minHeight: 300,
     component: "OurTeam",
     leftMenuType: "ourTeam"
+  },
+  {
+    id: "officiallyYours",
+    title: {
+      en: "OfficiallyYours",
+      fr: "OfficiallyYours",
+      es: "OfficiallyYours",
+      hi: "OfficiallyYours",
+      ar: "OfficiallyYours"
+    },
+    subtitle: {
+      en: "Visit OfficiallyYours",
+      fr: "Visitez OfficiallyYours"
+    },
+    imgSrc: "/img/icons/windowsIcons/549(32x32).png",
+    onDesktop: false,
+    resizable: false,
+    windowsHeaderLogo: false,
+    isSearchVisible: false,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/img/icons/windowsIcons/549(32x32).png",
+    initPositionX: 0,
+    initPositionY: 0,
+    initWidth: 0,
+    initHeight: 0,
+    minWidth: 0,
+    minHeight: 0,
+    component: "OfficiallyYours",
+    leftMenuType: ""
+  },
+  {
+    id: "ageOfAI",
+    title: {
+      en: "Age of AI",
+      fr: "Age of AI",
+      es: "Age of AI",
+      hi: "Age of AI",
+      ar: "Age of AI"
+    },
+    subtitle: {
+      en: "Visit Age of AI",
+      fr: "Visitez Age of AI"
+    },
+    imgSrc: "/img/icons/windowsIcons/747(32x32).png",
+    onDesktop: false,
+    resizable: false,
+    windowsHeaderLogo: false,
+    isSearchVisible: false,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/img/icons/windowsIcons/747(32x32).png",
+    initPositionX: 0,
+    initPositionY: 0,
+    initWidth: 0,
+    initHeight: 0,
+    minWidth: 0,
+    minHeight: 0,
+    component: "AgeOfAI",
+    leftMenuType: ""
+  },
+  {
+    id: "schoolExl",
+    title: {
+      en: "SchoolExl",
+      fr: "SchoolExl",
+      es: "SchoolExl",
+      hi: "SchoolExl",
+      ar: "SchoolExl"
+    },
+    subtitle: {
+      en: "Visit SchoolExl",
+      fr: "Visitez SchoolExl"
+    },
+    imgSrc: "/img/icons/windowsIcons/743(32x32).png",
+    onDesktop: false,
+    resizable: false,
+    windowsHeaderLogo: false,
+    isSearchVisible: false,
+    headerPosition: "left",
+    headerToolsId: "",
+    menuHeaderItemsId: "none",
+    iconSrc: "/img/icons/windowsIcons/743(32x32).png",
+    initPositionX: 0,
+    initPositionY: 0,
+    initWidth: 0,
+    initHeight: 0,
+    minWidth: 0,
+    minHeight: 0,
+    component: "SchoolExl",
+    leftMenuType: ""
   },
 ];

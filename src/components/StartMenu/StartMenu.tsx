@@ -204,10 +204,25 @@ const StartMenu: React.FC<StartMenuProps> = ({ className, onClick, currentUser =
           <MenuItems
             items={[
               { icon: '/img/icons/documents/folder-docs-icon-sm.webp', text: getLocalizedTitle('ourDocuments') },
-              { icon: '/img/icons/windowsIcons/301(32x32).png', text: 'My Recent Documents' },
-              { icon: '/windowsIcons/307(32x32).png', text: getLocalizedTitle('ourPictures') },
+              { icon: '/windowsIcons/289(32x32).png', text: getLocalizedTitle('ourPictures') },
               { icon: '/img/icons/music/winamp-icon-lg.png', text: getLocalizedTitle('music') },
-              { icon: '/img/icons/computer-icon-lg.png', text: getLocalizedTitle('ourComputer') },
+            ]}
+          />
+          <div className="menu__separator menu__separator--right"></div>
+          <MenuItems
+            items={[
+              { icon: '/img/icons/explorer-icon-sm.webp', text: getLocalizedTitle('agencyWebsite') },
+              { icon: '/img/icons/notepad/notepad-icon-sm.webp', text: getLocalizedTitle('aboutUs') },
+              { icon: '/img/icons/windowsIcons/301(32x32).png', text: getLocalizedTitle('scheduleMeeting') },
+              { icon: '/img/Whatsapp.svg', text: getLocalizedTitle('chatWithUs') },
+            ]}
+          />
+          <div className="menu__separator menu__separator--right"></div>
+          <MenuItems
+            items={[
+              { icon: '/img/icons/windowsIcons/549(32x32).png', text: getLocalizedTitle('officiallyYours') },
+              { icon: '/img/icons/windowsIcons/747(32x32).png', text: getLocalizedTitle('ageOfAI') },
+              { icon: '/img/icons/windowsIcons/743(32x32).png', text: getLocalizedTitle('schoolExl') },
             ]}
           />
           <div className="menu__separator menu__separator--right"></div>
@@ -216,15 +231,6 @@ const StartMenu: React.FC<StartMenuProps> = ({ className, onClick, currentUser =
               { icon: '/img/icons/windowsIcons/300(32x32).png', text: 'Control Panel' },
               { icon: '/img/icons/windowsIcons/227(32x32).png', text: 'Set Program Access and Defaults' },
               { icon: '/img/icons/windowsIcons/309(16x16).png', text: 'Connect To' },
-              { icon: '/img/icons/explorer-icon-sm.webp', text: getLocalizedTitle('agencyWebsite') },
-            ]}
-          />
-          <div className="menu__separator menu__separator--right"></div>
-          <MenuItems
-            items={[
-              { icon: '/img/icons/notepad/notepad-icon-sm.webp', text: getLocalizedTitle('aboutUs') },
-              { icon: '/img/icons/windowsIcons/301(32x32).png', text: getLocalizedTitle('scheduleMeeting') },
-              { icon: '/img/Whatsapp.svg', text: getLocalizedTitle('chatWithUs') },
             ]}
           />
         </div>

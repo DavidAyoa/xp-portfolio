@@ -80,32 +80,39 @@ const Desktop: React.FC<DesktopProps> = ({ currentUser, onLogout }) => {
     Documents: () => <div className="p-4">Documents component coming soon...</div>,
     Calendar: () => <div className="p-4">Calendar component coming soon...</div>,
     Doom: () => <div className="p-4">Doom component coming soon...</div>,
-    ContactDetails: () => <Notepad startInMarkdownMode={true} initialText={`## Contact
+    ContactDetails: () => <Notepad startInMarkdownMode={true} initialText={`# Contact
 
-LET'S GET IN TOUCH
+**LET'S GET IN TOUCH**
 
-Codepoets Digital LLP
+**Codepoets Digital LLP**
 
-Contact: +91-97 22 55 88 00 , +64-221 711 622, +61 424 499 997
+**Phone:** +91-97 22 55 88 00
+**Email:** wearecodepoets@gmail.com, himanshu@codepoets.co.in
 
-E-Mail: wearecodepoets@gmail.com, himanshu@codepoets.co.in
+---
 
-Gandhinagar, India
+## Our Offices
 
-Address: A2/02, Tower IV, INFOCITY, Infocity, Gandhinagar, Gujarat 382007
+**Gandhinagar, India**
+A2/02, Tower IV, INFOCITY, Infocity
+Gandhinagar, Gujarat 382007
 
-Bengaluru, India
-Address: No 13-14, 1st Floor, SV Complex, Kothanur Main Road, I.P Nagar, Bengaluru 560078
+**Dubai, UAE**
+2210, Saba 3, Cluster Q
+Jumeira Lake Towers, Dubai
 
-Perth, Australia
-Address: 4A Rupert street, Maylands, Perth, WA, Australia 6008
+---
 
-Auckland, New Zealand
-Address: 300 Richmond Serviced Office, Grey Lynn, Auckland – 1021
+**Instagram:** [@codepoets_](https://instagram.com/codepoets_)
+**Behance:** [/codepoets](https://behance.net/codepoets)
 
-Instagram: @codepoets_
+---
 
-Behance: /codepoets
+## Other Ventures
+
+- [OfficiallyYours](https://officiallyours.co.in)
+- [Age of AI](https://ageofai.digital)
+- [SchoolExl](https://schoolexl.com)
 `} />,
     OurServices: () => <Notepad startInMarkdownMode={true} initialText={`# **DESIGN**
 
@@ -488,31 +495,21 @@ Behance: /codepoets
 `} />,
     AboutUs: () => <Notepad startInMarkdownMode={true} initialText={`# About Us
 
----
-
-> ## We make people...
->
-> **Love your website…**
->
-> **Buy your products…**
->
-> **Experience your tech…**
+**We're a Tech-First, full-service Digital Creative Agency.**
 
 ---
 
-## No over-strategizing. No bloating. No fuss.
+## We make people...
 
-With **more than a decade of experience**, we create highly functional, one-of-a-kind, award-winning digital products in the most uncomplicated way possible. That's not a brag, it's a promise – **to deliver tomorrow's creative solutions – today!**
+**Love your website**
+**Buy your products**
+**Experience your tech**
+**Drool over your digital presence**
+*(after today)*
 
 ---
 
-## Who We Are
-
-**Creativity is what drives us!** We do our best work when the guardrails are down and we can spread our wings. Although we are well-versed at coding, our people are far from cog – coders.
-
-We consider our work as **a mix of art and technology!** We put not only our brain, but also heart and soul in what we do, which is what makes our work creatively poetic.
-
-We define our work as **Code Poetries**, we call ourselves **Codepoets!**
+We're a global team of strategists, designers, and engineers from **India, USA, UAE and Africa** - building forward-thinking brands and digital experiences that drive customer reach and conversion.
 
 ---
 
@@ -542,7 +539,13 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
 
 ---
 
-> *"We don't just write code, we craft digital poetry."*
+## CORE SERVICE AREAS
+
+**01 /** STRATEGY AND CONSULTING
+**02 /** DESIGN & BRANDING
+**03 /** WEB & MOBILE APPS
+**04 /** DIGITAL MARKETING
+**05 /** AI & BLOCKCHAIN
 `} />,
     BlankNotepad: () => <Notepad initialText="" />,
     ScheduleMeeting: (props: any) => (
@@ -564,6 +567,33 @@ We define our work as **Code Poetries**, we call ourselves **Codepoets!**
       return null;
     },
     OurPictures: (props: any) => <FileManager {...props} type="ourPictures" />,
+    OfficiallyYours: (props: any) => {
+      window.open('https://officiallyours.co.in', '_blank');
+      props.onClose?.();
+      return null;
+    },
+    AgeOfAI: (props: any) => {
+      window.open('https://ageofai.digital', '_blank');
+      props.onClose?.();
+      return null;
+    },
+    SchoolExl: (props: any) => {
+      window.open('https://schoolexl.com', '_blank');
+      props.onClose?.();
+      return null;
+    },
+    OurShowreel: () => (
+      <div className="h-full w-full bg-black flex items-center justify-center">
+        <video
+          className="max-w-full max-h-full"
+          controls
+          autoPlay
+          src="/CodepoetsShowreel.mp4"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    ),
   };
 
 

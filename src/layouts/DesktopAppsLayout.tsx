@@ -62,15 +62,18 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
     const handleMouseDown = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isOnIcon = target.closest('button[data-icon]');
-      const isOnGrid = target.closest('.grid');
+      const isOnWindow = target.closest('.window-container');
+      const isOnTaskbar = target.closest('.taskbar') || target.closest('[class*="taskbar"]');
+      const isOnStartMenu = target.closest('.start-menu');
+      const isOnDesktop = target.closest('.bg-office-pic') || target.closest('[class*="bg-office"]');
 
-      if (!isOnIcon && isOnGrid && containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
+      // Start selection if clicking on empty desktop area (not on icons, windows, taskbar, or start menu)
+      if (!isOnIcon && !isOnWindow && !isOnTaskbar && !isOnStartMenu && isOnDesktop) {
         setSelectionBox({
-          startX: e.clientX - rect.left,
-          startY: e.clientY - rect.top,
-          currentX: e.clientX - rect.left,
-          currentY: e.clientY - rect.top,
+          startX: e.clientX,
+          startY: e.clientY,
+          currentX: e.clientX,
+          currentY: e.clientY,
           isSelecting: true
         });
 
@@ -82,8 +85,8 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
             isFocus: false
           }))
         );
-      } else if (!isOnIcon && !isOnGrid) {
-        // Clicked outside desktop area
+      } else if (!isOnIcon) {
+        // Clicked somewhere else, clear focus
         setLocalEntities(prev =>
           prev.map(entity => ({
             ...entity,
@@ -95,12 +98,11 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (selectionBox?.isSelecting && containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
+      if (selectionBox?.isSelecting) {
         setSelectionBox(prev => prev ? {
           ...prev,
-          currentX: e.clientX - rect.left,
-          currentY: e.clientY - rect.top
+          currentX: e.clientX,
+          currentY: e.clientY
         } : null);
       }
     };
@@ -137,10 +139,17 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
   const getSelectionBoxDimensions = () => {
     if (!selectionBox) return null;
 
+    const taskbarHeight = 36; // Approximate taskbar height
+    const maxY = window.innerHeight - taskbarHeight;
+
+    // Clamp Y coordinates to not extend into taskbar
+    const clampedStartY = Math.min(selectionBox.startY, maxY);
+    const clampedCurrentY = Math.min(selectionBox.currentY, maxY);
+
     const left = Math.min(selectionBox.startX, selectionBox.currentX);
-    const top = Math.min(selectionBox.startY, selectionBox.currentY);
+    const top = Math.min(clampedStartY, clampedCurrentY);
     const width = Math.abs(selectionBox.currentX - selectionBox.startX);
-    const height = Math.abs(selectionBox.currentY - selectionBox.startY);
+    const height = Math.abs(clampedCurrentY - clampedStartY);
 
     return { left, top, width, height };
   };
@@ -185,63 +194,68 @@ const DesktopAppsLayout: React.FC<DesktopAppsLayoutProps> = ({ entities, onToggl
   const desktopEntities = localEntities.filter((entity) => entity.onDesktop);
 
   return (
-    <section className="absolute top-0 left-0" ref={containerRef}>
-      <div className="grid grid-cols-2 gap-5 pt-6 pl-6">
-        {desktopEntities.map((entity) => (
-          <button
-            key={entity.id}
-            data-icon={entity.id}
-            className={clsx(
-              "flex flex-col gap-2 items-center w-full cursor-pointer",
-              (entity.isActive || entity.isFocus) && "active"
-            )}
-            onClick={(e) => handleEntityClick(entity, e)}
-            onDoubleClick={(e) => handleEntityDoubleClick(entity, e)}
-          >
-            <img
-              className="w-8 h-8"
-              style={{
-                ...entity.imageStyle,
-                filter: entity.isFocus ? 'drop-shadow(0 0 2px blue)' : 'none',
-                opacity: entity.isFocus ? 0.7 : 1
-              }}
-              src={entity.imgSrc}
-              alt={getLocalizedTitle(entity)}
-            />
-            <p
+    <>
+      <section className="absolute top-0 left-0" ref={containerRef}>
+        <div className="grid grid-cols-2 gap-5 pt-6 pl-6">
+          {desktopEntities.map((entity) => (
+            <button
+              key={entity.id}
+              data-icon={entity.id}
               className={clsx(
-                "text-white font-normal py-px px-1",
-                entity.isFocus ? "bg-blue-600" : "bg-transparent"
+                "flex flex-col gap-2 items-center w-full cursor-pointer",
+                (entity.isActive || entity.isFocus) && "active"
               )}
-              style={{
-                fontSize: '10px',
-                ...entity.textStyle,
-                textShadow: entity.isFocus ? 'none' : '0px 1px 1px rgba(1, 1, 1, 1), 0px 0px 4px #000'
-              }}
+              onClick={(e) => handleEntityClick(entity, e)}
+              onDoubleClick={(e) => handleEntityDoubleClick(entity, e)}
             >
-              {getLocalizedTitle(entity).split('\n').map((line, index, array) => (
-                <React.Fragment key={index}>
-                  {line}
-                  {index < array.length - 1 && <br />}
-                </React.Fragment>
-              ))}
-            </p>
-          </button>
-        ))}
+              <img
+                className="w-8 h-8"
+                style={{
+                  ...entity.imageStyle,
+                  filter: entity.isFocus ? 'drop-shadow(0 0 2px blue)' : 'none',
+                  opacity: entity.isFocus ? 0.7 : 1
+                }}
+                src={entity.imgSrc}
+                alt={getLocalizedTitle(entity)}
+              />
+              <p
+                className={clsx(
+                  "text-white font-normal py-px px-1",
+                  entity.isFocus ? "bg-blue-600" : "bg-transparent"
+                )}
+                style={{
+                  fontSize: '10px',
+                  ...entity.textStyle,
+                  textShadow: entity.isFocus ? 'none' : '0px 1px 1px rgba(1, 1, 1, 1), 0px 0px 4px #000'
+                }}
+              >
+                {getLocalizedTitle(entity).split('\n').map((line, index, array) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    {index < array.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
+              </p>
+            </button>
+          ))}
+        </div>
+      </section>
 
-        {selectionBox?.isSelecting && getSelectionBoxDimensions() && (
-          <div
-            className="absolute border border-dashed border-gray-500 bg-blue-500/10 pointer-events-none z-[1000]"
-            style={{
-              left: `${getSelectionBoxDimensions()!.left}px`,
-              top: `${getSelectionBoxDimensions()!.top}px`,
-              width: `${getSelectionBoxDimensions()!.width}px`,
-              height: `${getSelectionBoxDimensions()!.height}px`,
-            }}
-          />
-        )}
-      </div>
-    </section>
+      {selectionBox?.isSelecting && getSelectionBoxDimensions() && (
+        <div
+          className="fixed pointer-events-none"
+          style={{
+            left: `${getSelectionBoxDimensions()!.left}px`,
+            top: `${getSelectionBoxDimensions()!.top}px`,
+            width: `${getSelectionBoxDimensions()!.width}px`,
+            height: `${getSelectionBoxDimensions()!.height}px`,
+            border: '2px dashed #0078d7',
+            backgroundColor: 'rgba(0, 120, 215, 0.25)',
+            zIndex: 9999,
+          }}
+        />
+      )}
+    </>
   );
 };
 
